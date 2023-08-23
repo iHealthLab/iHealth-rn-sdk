@@ -163,6 +163,26 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
             sendEvent(Event_Scan_Finish, null);
         }
 
+        @Override
+        public void onSDKStatus(int statusId, String statusMessage) { 
+        if (iHealthDevicesManager.SDK_STATUS_BLUETOOTH_DISABLE == statusId) {
+            Log.i("", "Bluetooth service is disable!");
+
+        } else if (iHealthDevicesManager.SDK_STATUS_LOCATION_DISABLE == statusId) {
+            Log.i("", "Location service is disable!");
+
+        } else if (iHealthDevicesManager.SDK_STATUS_BLUETOOTH_PERMISSION == statusId) {
+            Log.i("", "Miss android permission: " + statusMessage);
+
+        } else if (iHealthDevicesManager.SDK_STATUS_LICENSE_EXPIRED == statusId) {
+            Log.i("", "License is not match with application id or is expired!");
+
+        } else if (iHealthDevicesManager.SDK_STATUS_LICENSE_DEVICE_PERMISSION == statusId) {
+            Log.i("", "Need this device permission!");
+
+        } 
+    }
+
     };
 
     private void commandHandleDeviceNotify(String mac, String deviceType, String action, String message) {

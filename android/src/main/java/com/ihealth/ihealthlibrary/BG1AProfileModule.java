@@ -112,7 +112,7 @@ public class BG1AProfileModule extends ReactContextBaseJavaModule {
     /**
      *
      */
-    String ACTION_INFO_IDPS = "action_info_idps";
+    String ACTION_GET_DEVICE_INFO = "action_get_device_info";
 
     String ACTION_SET_DEVICE_TIME = "action_set_device_time";
 
@@ -148,7 +148,7 @@ public class BG1AProfileModule extends ReactContextBaseJavaModule {
         constants.put(ERROR_NUM_BG1A, Bg1aProfile.ERROR_NUM_BG1A);
         constants.put(ERROR_DESCRIPTION_BG1A, Bg1aProfile.ERROR_DESCRIPTION_BG1A);
 
-        constants.put(ACTION_INFO_IDPS, Bg1aProfile.ACTION_INFO_IDPS);
+        constants.put(ACTION_GET_DEVICE_INFO, Bg1aProfile.ACTION_GET_DEVICE_INFO);
         
         constants.put(INFO_BATTERY_BG1A, Bg1aProfile.INFO_BATTERY_BG1A);
 
