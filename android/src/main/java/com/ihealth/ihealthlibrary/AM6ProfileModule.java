@@ -155,7 +155,7 @@ public class AM6ProfileModule extends ReactContextBaseJavaModule {
         constants.put("Action_GetBloodOxygenData", Am6Profile.Action_GetBloodOxygenData);
         constants.put("GetBloodOxygenData_List", Am6Profile.GetBloodOxygenData_List);
         constants.put("GetBloodOxygenData_Date", Am6Profile.GetBloodOxygenData_Date);
-       constants.put("GetBloodOxygenData_BloodOxygen", Am6Profile.GetBloodOxygenData_BloodOxygen);
+        constants.put("GetBloodOxygenData_BloodOxygen", Am6Profile.GetBloodOxygenData_BloodOxygen);
 
         constants.put("Action_GetActivityData", Am6Profile.Action_GetActivityData);
         constants.put("GetActivityData_Date", Am6Profile.GetActivityData_Date);
