@@ -25,7 +25,6 @@ public class Utils {
 
     private static final String TAG = "Utils";
 
-
     public static void jsonToMap(String jsonString, WritableMap writableMap) {
         JSONObject jsonObject = null;
         try {

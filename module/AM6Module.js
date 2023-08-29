@@ -25,8 +25,8 @@ module.exports = {
        RCTModule.disconnect(mac)
     },
 
-    getDeviceInfoAndSyncTime: function (mac) {
-        RCTModule.getDeviceInfoAndSyncTime(mac)
+    getDeviceInfoAndSyncTime: function (mac, is24Hour) {
+        RCTModule.getDeviceInfoAndSyncTime(mac, is24Hour)
     },
 
     setUserInfo: function (mac, userIds, gender, age, height, weight) {
@@ -41,8 +41,8 @@ module.exports = {
         RCTModule.notifyMessage(mac, date, status, type, title, content)
     },
     
-    findDevice: function (mac) {
-        RCTModule.findDevice(mac)
+    findDevice: function (mac, start) {
+        RCTModule.findDevice(mac, start)
     },
 
     rebootDevice: function (mac) {
@@ -93,8 +93,8 @@ module.exports = {
         RCTModule.getWearHand(mac)
     },
     
-    setAlarmClockList: function (mac, type) {
-        RCTModule.setAlarmClockList(mac, type)
+    setAlarmClockList: function (mac, clockList) {
+        RCTModule.setAlarmClockList(mac, clockList)
     },
 
     getAlarmClockList: function (mac) {
