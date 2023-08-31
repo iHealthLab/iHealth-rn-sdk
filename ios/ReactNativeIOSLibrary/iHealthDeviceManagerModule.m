@@ -45,6 +45,10 @@
 
 #import "PT3SBTMacroFile.h"
 
+#import "AM6.h"
+
+#import "AM6Controller.h"
+
 #define FetchUserInfo @"com.rn.ihealth.dm.userinfo"
 
 #define kEvent_Scan_Device              @"event_scan_device"
@@ -83,6 +87,8 @@
 
 #define kType_BG1A @"BG1A"
 
+#define kType_AM6 @"AM6"
+
 
 @interface iHealthDeviceManagerModule()<TS28BControllerDelegate,IHDeviceSDKLogDelegate>
 
@@ -105,6 +111,7 @@ RCT_EXPORT_MODULE()
              @"AM3S" :kType_AM3S,
              @"AM4" :kType_AM4,
              @"AM5" :kType_AM5,
+             @"AM6" :kType_AM6,
              @"PO3":kType_PO3,
              @"PO3M":kType_PO3,
              @"BP5":kType_BP5,
@@ -285,10 +292,20 @@ RCT_EXPORT_MODULE()
         
         //BG1A
                
-               [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BG1ADiscover object:nil];
-               [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:BG1AConnectFailed object:nil];
-               [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BG1AConnectNoti object:nil];
-               [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BG1ADisConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BG1ADiscover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:BG1AConnectFailed object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BG1AConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BG1ADisConnectNoti object:nil];
+    
+        //AM6
+               
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:AM6Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:AM6ConnectFailed object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:AM6ConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:AM6DisConnectNoti object:nil];
+        
+        [[AM6Controller shareAM6Controller] configAM6DeviceBleParameters];
+        
        
         [AM3Controller shareIHAM3Controller];
         [AM3SController_V2 shareIHAM3SController];
@@ -424,6 +441,7 @@ RCT_EXPORT_MODULE()
                                         @"AM3S" :kType_AM3S,
                                         @"AM4" :kType_AM4,
                                         @"AM5" :kType_AM5,
+                                        @"AM6" :kType_AM6,
                                         @"PO3":kType_PO3,
                                         @"PO3M":kType_PO3,
                                         @"BP3L" :kType_BP3L,
@@ -459,7 +477,13 @@ RCT_EXPORT_MODULE()
         }
         
         
+    }else if([deviceName containsString:kType_AM6]&& [self serialNumebr:userInfo]){
+        
+        
+        [self.bridge.eventDispatcher sendDeviceEventWithName:kEvent_Scan_Device body:@{@"mac":[self serialNumebr:userInfo],@"type":kType_AM6,@"rssi":userInfo[@"RSSI"]}];
+        
     }
+        
 }
 
 #pragma mark 连接成功 BT\BLE都用这个通知
@@ -487,6 +511,7 @@ RCT_EXPORT_MODULE()
                                         @"AM3S" :kType_AM3S,
                                         @"AM4" :kType_AM4,
                                         @"AM5" :kType_AM5,
+                                        @"AM6" :kType_AM6,
                                         @"PO3":kType_PO3,
                                         @"PO3M":kType_PO3,
                                         @"BP3L" :kType_BP3L,
@@ -541,6 +566,7 @@ RCT_EXPORT_MODULE()
                                         @"AM3S" :kType_AM3S,
                                         @"AM4" :kType_AM4,
                                         @"AM5" :kType_AM5,
+                                        @"AM6" :kType_AM6,
                                         @"PO3":kType_PO3,
                                         @"PO3M":kType_PO3,
                                         @"BP3L" :kType_BP3L,
@@ -588,6 +614,7 @@ RCT_EXPORT_MODULE()
                                         @"AM3S" :kType_AM3S,
                                         @"AM4" :kType_AM4,
                                         @"AM5" :kType_AM5,
+                                        @"AM6" :kType_AM6,
                                         @"PO3":kType_PO3,
                                         @"PO3M":kType_PO3,
                                         @"BP3L" :kType_BP3L,
@@ -794,6 +821,23 @@ RCT_EXPORT_METHOD(startDiscovery:(nonnull NSString *)deviceType){
         
         [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_BG1A];
         
+    }else if ([deviceType isEqualToString:kType_AM6]){
+        
+        [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_AM6];
+        
+       NSArray*array=[[AM6Controller shareAM6Controller] getAllCurrentConnectedAM6Mac];
+        
+        if(array.count){
+            
+            for (int i=0; i<array.count; i++)  {
+                
+                [self.bridge.eventDispatcher sendDeviceEventWithName:kEvent_Scan_Device body:@{@"mac":[array objectAtIndex:i],@"type":kType_AM6}];
+            }
+            
+           
+            
+        }
+        
     }
     
     
@@ -884,10 +928,13 @@ RCT_EXPORT_METHOD(stopDiscovery){
     
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_BG1A];
     
+    [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_AM6];
+    
     [self.bridge.eventDispatcher sendDeviceEventWithName:kEvent_Scan_Finish body:nil];
 }
 
 RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *)deviceType){
+    
     if ([deviceType isEqualToString:kType_BP5]){
         
         NSArray*bp5array = [[BP5Controller shareBP5Controller] getAllCurrentBP5Instace];
@@ -1083,6 +1130,10 @@ RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *
     }else if ([deviceType isEqualToString:kType_BG1A]){
         
         [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_BG1A andSerialNub:mac];
+        
+    }else if ([deviceType isEqualToString:kType_AM6]){
+        
+        [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_AM6 andSerialNub:mac];
         
     }
     
