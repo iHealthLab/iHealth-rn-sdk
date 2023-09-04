@@ -100,7 +100,7 @@ RCT_EXPORT_METHOD(getAllConnectedDevices){
 }
 
 
-RCT_EXPORT_METHOD(getDeviceInfoAndSyncTime:(nonnull NSString *)mac){
+RCT_EXPORT_METHOD(getDeviceInfoAndSyncTime:(nonnull NSString *)mac :(int)flag){
     
     if ([self getAM6WithMac:mac]!=nil) {
         
@@ -185,13 +185,13 @@ RCT_EXPORT_METHOD(setPhonePlatform:(nonnull NSString *)mac){
     }
     
 }
-RCT_EXPORT_METHOD(findDevice:(nonnull NSString *)mac){
+RCT_EXPORT_METHOD(findDevice:(nonnull NSString *)mac :(int)flag){
     
     if ([self getAM6WithMac:mac]!=nil) {
         
         __weak typeof(self) weakSelf = self;
         
-        [[self getAM6WithMac:mac] findDevice:0 success:^{
+        [[self getAM6WithMac:mac] findDevice:flag success:^{
             
             
         } fail:^(int error) {
@@ -540,7 +540,7 @@ RCT_EXPORT_METHOD(getWearHand:(nonnull NSString *)mac){
         
         __weak typeof(self) weakSelf = self;
         
-        [[self getAM6WithMac:mac] queryNotDisturbWithSuccess:^{
+        [[self getAM6WithMac:mac] queryWearHandWithSuccess:^{
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:AM6_EVENT_NOTIFY body:@{
                                            AM6_ACTION:ACTION_GET_WEARHAND,
                                            AM6_KEY_MAC:mac,
@@ -559,15 +559,41 @@ RCT_EXPORT_METHOD(getWearHand:(nonnull NSString *)mac){
     
 }
 
+//If the passed list is an empty string, it means deleting all alarm clocks in AM6
+
 RCT_EXPORT_METHOD(setAlarmClockList:(nonnull NSString *)mac :(nonnull NSString *)list){
     
     if ([self getAM6WithMac:mac]!=nil) {
         
         __weak typeof(self) weakSelf = self;
         
+        
+        if(list.length==0){
+            
+            [[self getAM6WithMac:mac] setAlartList:[NSArray array] success:^{
+                
+                [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:AM6_EVENT_NOTIFY body:@{
+                                               AM6_ACTION:ACTION_SET_ALARMLIST,
+                                               AM6_KEY_MAC:mac,
+                                               AM6_TYPE:DEVICE_TYPE,
+                                               AM6_SET_ALARMLIST_LIST:@1,
+                        
+                                           }];
+                
+                
+            } fail:^(int error) {
+                [AM6ProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:AM6_EVENT_NOTIFY WithCode:error];
+            }];
+            
+            return;
+            
+        }
+        
+        
+        
         NSArray*array=[list componentsSeparatedByString:@";"];
         
-        if(list.length==0 || array.count==0){
+        if(array.count==0){
            
             [AM6ProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:AM6_EVENT_NOTIFY WithCode:AM6DeviceError_InputParameterError];
             
@@ -590,7 +616,7 @@ RCT_EXPORT_METHOD(setAlarmClockList:(nonnull NSString *)mac :(nonnull NSString *
                 
                 AM6AlarmModel *model = [AM6AlarmModel new];
                 
-                model.isOn=[tempArray objectAtIndex:0];
+                model.isOn=[[tempArray objectAtIndex:0] boolValue];
                 
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
                 dateFormatter.dateFormat = @"HHmm";
@@ -940,13 +966,13 @@ RCT_EXPORT_METHOD(getSleepData:(nonnull NSString *)mac){
                     
                     [sleepDic setValue:model.dateString forKey:AM6_GET_SLEEPDATA_DATE];
                     
-                    NSMutableArray*sleepItemArray=[model.dataArray copy];
+                    NSMutableArray*sleepItemArray=[NSMutableArray array];
                     
-                    for (int j=0; j<sleepItemArray.count; j++) {
+                    for (int j=0; j<model.dataArray.count; j++) {
                         
                         NSMutableDictionary*sleepItemDic=[NSMutableDictionary dictionary];
                         
-                        AM6DeviceSleepItem*itemMode=[sleepItemArray objectAtIndex:j];
+                        AM6DeviceSleepItem*itemMode=[model.dataArray objectAtIndex:j];
                         
                         [sleepItemDic setValue:itemMode.timeString forKey:AM6_GET_SLEEPDATA_MODE_DATE];
                         [sleepItemDic setValue:@(itemMode.status) forKey:AM6_GET_SLEEPDATA_MODE];
@@ -1090,13 +1116,13 @@ RCT_EXPORT_METHOD(getActivityData:(nonnull NSString *)mac){
                     
                     AM6DeviceIndoorRun*model=[sportArray objectAtIndex:i];
                     
-                    NSMutableArray*sportItemArray=[model.dataArray copy];
+                    NSMutableArray*sportItemArray=[NSMutableArray array];
                     
-                    for (int j=0; j<sportItemArray.count; j++) {
+                    for (int j=0; j<model.dataArray.count; j++) {
                         
                         NSMutableDictionary*sportItemDic=[NSMutableDictionary dictionary];
                         
-                        AM6DeviceIndoorRunPart*itemMode=[sportItemArray objectAtIndex:j];
+                        AM6DeviceIndoorRunPart*itemMode=[model.dataArray objectAtIndex:j];
                         
                         [sportItemDic setValue:itemMode.dateString forKey:AM6_GET_ACTIVITYPOINT_DATE];
                         [sportItemDic setValue:itemMode.calorieArray forKey:AM6_GET_ACTIVITYPOINT_CALORIE];
