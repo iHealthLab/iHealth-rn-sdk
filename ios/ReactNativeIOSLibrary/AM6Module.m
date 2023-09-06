@@ -193,6 +193,13 @@ RCT_EXPORT_METHOD(findDevice:(nonnull NSString *)mac :(int)flag){
         
         [[self getAM6WithMac:mac] findDevice:flag success:^{
             
+            [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:AM6_EVENT_NOTIFY body:@{
+                                           AM6_ACTION:ACTION_FIND_DEVICE,
+                                           AM6_KEY_MAC:mac,
+                                           AM6_TYPE:DEVICE_TYPE,
+                                           AM6_FIND_DEVICE_STATUS:@1,
+                                       }];
+            
             
         } fail:^(int error) {
             
@@ -211,7 +218,7 @@ RCT_EXPORT_METHOD(findDevice:(nonnull NSString *)mac :(int)flag){
     
     [self.bridge.eventDispatcher sendDeviceEventWithName:AM6_EVENT_NOTIFY body:@{
                                    AM6_ACTION:ACTION_FIND_DEVICE,
-                                   AM6_KEY_MAC:self.deviceMac,
+                                   AM6_KEY_MAC:[[noti userInfo] valueForKey:AM6_KEY_MAC],
                                    AM6_TYPE:DEVICE_TYPE,
                                    AM6_FIND_DEVICE_STATUS:@1
                                }];
@@ -221,7 +228,7 @@ RCT_EXPORT_METHOD(findDevice:(nonnull NSString *)mac :(int)flag){
     
     [self.bridge.eventDispatcher sendDeviceEventWithName:AM6_EVENT_NOTIFY body:@{
                                    AM6_ACTION:ACTION_FIND_DEVICE,
-                                   AM6_KEY_MAC:self.deviceMac,
+                                   AM6_KEY_MAC:[[noti userInfo] valueForKey:AM6_KEY_MAC],
                                    AM6_TYPE:DEVICE_TYPE,
                                    AM6_FIND_DEVICE_STATUS:@0
                                }];
@@ -634,10 +641,9 @@ RCT_EXPORT_METHOD(setAlarmClockList:(nonnull NSString *)mac :(nonnull NSString *
                 model.repeatMode=tempRepeatMode;
                
                 struct AM6DateStruct alarmDate = {0};
-                NSRange hourrange={0,2};
-                NSRange minrange={2,2};
-                alarmDate.hour=(uint32_t)[[[tempArray objectAtIndex:2] substringWithRange:hourrange] intValue];
-                alarmDate.min=(uint32_t)[[[tempArray objectAtIndex:2] substringWithRange:minrange] intValue];
+               
+                alarmDate.hour=[[tempArray objectAtIndex:2] intValue]/60;
+                alarmDate.min=[[tempArray objectAtIndex:2] intValue]%60;
                 model.date=alarmDate;
                 
                 [mArr addObject:model];
