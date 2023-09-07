@@ -40,10 +40,16 @@ RCT_EXPORT_MODULE()
              @"AM6_GETDEVICEINFO_KEY_HARDWARE":AM6_GETDEVICEINFO_KEY_HARDWARE,
              @"AM6_GETDEVICEINFO_KEY_VERSION":AM6_GETDEVICEINFO_KEY_VERSION,
              
-             @"ACTION_SET_USER_INFO":ACTION_SET_USER_INFO,
+             @"ACTION_SET_USER":ACTION_SET_USER,
+             @"AM6_SET_USERINFO_RESULT":AM6_SET_USERINFO_RESULT,
+             
              @"ACTION_SET_PHONEPLATFORM":ACTION_SET_PHONEPLATFORM,
              @"ACTION_FIND_DEVICE":ACTION_FIND_DEVICE,
              @"AM6_FIND_DEVICE_STATUS":AM6_FIND_DEVICE_STATUS,
+             
+             @"ACTION_FIND_PHONE":ACTION_FIND_PHONE,
+             @"AM6_FIND_PHONE_STATUS":AM6_FIND_PHONE_STATUS,
+             
              @"ACTION_REBOOT_DEVICE":ACTION_REBOOT_DEVICE,
              
              @"ACTION_GET_TIME":ACTION_GET_TIME,
@@ -181,7 +187,8 @@ RCT_EXPORT_MODULE()
              @"AM6_GET_ACTIVITYPOINT_STEP":AM6_GET_ACTIVITYPOINT_STEP,
              @"AM6_GET_ACTIVITYPOINT":AM6_GET_ACTIVITYPOINT,
              
-             @"AM6_DELETE_DATA":AM6_DELETE_DATA,
+             @"ACTION_DELETEDATA":ACTION_DELETEDATA,
+             @"AM6_DELETEDATA_RESULT":AM6_DELETEDATA_RESULT,
              @"AM6_DISCONNECT_DEVICE":AM6_DISCONNECT_DEVICE,
              
              @"ACTION_ERROR_AM6":ACTION_ERROR_AM6,
@@ -207,7 +214,7 @@ RCT_EXPORT_MODULE()
         case AM6DeviceError_SetTimeFaild:
             return @"Set Time Faild";
         case AM6DeviceError_InputParameterError:
-            return @"Parameters out of range.";
+            return @"InputParameterError";
         case AM6DeviceError_Unknown:
             return @"Error Unknown";
         case AM6DeviceError_CommunicationTimeout:
@@ -226,7 +233,7 @@ RCT_EXPORT_MODULE()
     return @"unknown error";
 }
 
-+ (void)sendErrorToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithCode:(NSInteger)errorCode{
++ (void)sendErrorToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithCode:(NSInteger)errorCode mac:(NSString*)mac{
     NSDictionary*  errorDict;
     
     
@@ -235,7 +242,9 @@ RCT_EXPORT_MODULE()
     
         errorDict = @{
             AM6_ACTION:ACTION_ERROR_AM6,
-            ERROR_DESCRIPTION_AM6:[self descriptionForErrorCode:errorCode]
+            ERROR_DESCRIPTION_AM6:[self descriptionForErrorCode:errorCode],
+            AM6_TYPE:@"AM6",
+            AM6_KEY_MAC:mac,
                       };
     
     }else{
@@ -244,7 +253,9 @@ RCT_EXPORT_MODULE()
        errorDict = @{
            AM6_ACTION:ACTION_ERROR_AM6,
            ERROR_NUM_AM6:@(errorCode),
-           ERROR_DESCRIPTION_AM6:[self descriptionForErrorCode:errorCode]
+           ERROR_DESCRIPTION_AM6:[self descriptionForErrorCode:errorCode],
+           AM6_TYPE:@"AM6",
+           AM6_KEY_MAC:mac,
             };
 
     
