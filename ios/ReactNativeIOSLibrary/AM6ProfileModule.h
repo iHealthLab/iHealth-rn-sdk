@@ -112,6 +112,8 @@
 #define AM6_GET_ALARMLIST_ENABLE @"am6_getAlarmClockList_enable"
 #define AM6_GET_ALARMLIST_TIME @"am6_getAlarmClockList_time"
 #define AM6_GET_ALARMLIST_WEEK @"am6_getAlarmClockList_week"
+#define AM6_GET_ALARMLIST_STATUS @"am6_getAlarmClockList_status"
+
 
 
 #define ACTION_SET_STARTBIND @"am6_action_startBind"
