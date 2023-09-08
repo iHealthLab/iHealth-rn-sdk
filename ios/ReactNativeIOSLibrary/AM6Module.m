@@ -740,7 +740,7 @@ RCT_EXPORT_METHOD(getAlarmClockList:(nonnull NSString *)mac){
                                            AM6_KEY_MAC:mac,
                                            AM6_TYPE:DEVICE_TYPE,
                                            AM6_GET_ALARMLIST_LIST:alarmArrayResult,
-                    
+                                           AM6_GET_ALARMLIST_STATUS:@1,
                                        }];
         } fail:^(int error) {
             [AM6ProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:AM6_EVENT_NOTIFY WithCode:error  mac:mac];
@@ -1284,7 +1284,21 @@ RCT_EXPORT_METHOD(deleteData:(nonnull NSString *)mac :(int)type){
                 
             } fail:^(int error) {
                 
-                [AM6ProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:AM6_EVENT_NOTIFY WithCode:error  mac:mac];
+                if(error==AM6DeviceError_ActionFail){
+                    
+                    [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:AM6_EVENT_NOTIFY body:@{
+                        AM6_ACTION:ACTION_DELETEDATA,
+                        AM6_KEY_MAC:mac,
+                        AM6_TYPE:DEVICE_TYPE,
+                        AM6_DELETEDATA_RESULT:@0,
+                    }];
+                    
+                }else{
+                    
+                    [AM6ProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:AM6_EVENT_NOTIFY WithCode:error  mac:mac];
+                }
+                
+               
             }];
             
         }else{
