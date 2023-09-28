@@ -29,9 +29,11 @@ module.exports = {
   setUnit: function (mac,unit) {
     RCTModule.setUnit(mac,unit)
   },
+
   getUserInfo: function (mac) {
     RCTModule.getUserInfo(mac)
   },
+  
   updateUserInfo: function (mac,userID,createTS,weight,age,height,sex,impedanceMark,fitnessMark) {
     RCTModule.updateUserInfo(mac,userID,createTS,weight,age,height,sex,impedanceMark,fitnessMark);
   },
@@ -102,8 +104,8 @@ module.exports = {
    *
    * e.g. {"devices":["A4D5783FB00C","A4D5783FFE58"]}
    */
-  getAllConnectedDevices: function () {
-    RCTModule.getAllConnectedDevices()
+  getAllConnectedDevices: function (type) {
+    RCTModule.getAllConnectedDevices(type)
   }
 
 
