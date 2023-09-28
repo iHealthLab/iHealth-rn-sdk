@@ -105,7 +105,7 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString*)mac){
 
         [[self getHS2SWithMac:mac]commandGetHS2SBattery:^(NSNumber *battary) {
             
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2S,kACTION_KEY:ACTION_BATTARY_HS,BATTERY_HS:battary};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2S,kACTION_KEY:ACTION_BATTARY_HS,HS2S_DEVICE_BATTERY:battary};
                        
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                        
