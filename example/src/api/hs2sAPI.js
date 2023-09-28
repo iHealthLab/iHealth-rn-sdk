@@ -2,7 +2,7 @@ import { HS2SModule } from '@ihealth/ihealthlibrary-react-native';
 
 export default {
   apis: {
-    getAllConnectedDevices: () => HS2SModule.getAllConnectedDevices("HS2S"),
+    getAllConnectedDevices: () => HS2SModule.getAllConnectedDevices(),
     getDeviceInfo:       (mac) => HS2SModule.getDeviceInfo(mac),
     getBattery:          (mac) => HS2SModule.getBattery(mac),
     setUnit:             (mac) => HS2SModule.setUnit(mac, 1),

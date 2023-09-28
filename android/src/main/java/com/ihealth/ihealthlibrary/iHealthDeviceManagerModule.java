@@ -239,8 +239,11 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
                 break;
 
             case iHealthDevicesManager.TYPE_HS2S:
-            case iHealthDevicesManager.TYPE_HS2SPRO:
                 module = getReactApplicationContext().getNativeModule(HS2SModule.class);
+                break;
+
+            case iHealthDevicesManager.TYPE_HS2SPRO:
+                module = getReactApplicationContext().getNativeModule(HS2SProModule.class);
                 break;
 
             case iHealthDevicesManager.TYPE_HS4:

@@ -9,7 +9,8 @@ import {
   BP550BTModule,
   AM6Module,
   BG5SModule,
-  HS2SModule
+  HS2SModule,
+  HS2SProModule
  } from '@ihealth/ihealthlibrary-react-native'
 
 export default {
@@ -32,7 +33,7 @@ export default {
         return HS2SModule.Event_Notify
 
       case 'HS2S Pro':
-        return HS2SModule.Event_Notify
+        return HS2SProModule.Event_Notify
     }
   },
 
