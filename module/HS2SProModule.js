@@ -3,7 +3,7 @@
 
 var {NativeModules} = require('react-native');
 
-var RCTModule = NativeModules.HS2SModule
+var RCTModule = NativeModules.HS2SProModule
 
 /**
  * @module hs2sModule
