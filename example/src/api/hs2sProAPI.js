@@ -14,6 +14,7 @@ export default {
     deleteMemoryData:    (mac) => HS2SProModule.deleteMemoryData(mac, "1234567890123456"),
     getAnonymousMemoryDataCount: (mac) => HS2SProModule.getAnonymousMemoryDataCount(mac),
     getAnonymousMemoryData:      (mac) => HS2SProModule.getAnonymousMemoryData(mac),
+    deleteAnonymousMemoryData:      (mac) => HS2SProModule.deleteAnonymousMemoryData(mac),
     measure:             (mac) => HS2SProModule.measure(mac, 1, "1234567890123456", 1572317401, 71, 36, 176, 0, 1, 1),
     setDeviceLightUp:    (mac) => HS2SProModule.setDeviceLightUp(mac),
     enterHS2SHeartRateMeasurementMode: (mac) => HS2SProModule.enterHS2SHeartRateMeasurementMode(mac),
