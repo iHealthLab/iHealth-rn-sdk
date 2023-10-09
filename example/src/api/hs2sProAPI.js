@@ -16,9 +16,10 @@ export default {
     getAnonymousMemoryData:      (mac) => HS2SProModule.getAnonymousMemoryData(mac),
     deleteAnonymousMemoryData:      (mac) => HS2SProModule.deleteAnonymousMemoryData(mac),
     measure:             (mac) => HS2SProModule.measure(mac, 1, "1234567890123456", 1572317401, 71, 36, 176, 0, 1, 1),
+    resetDevice:    (mac) => HS2SProModule.resetDevice(mac),
     setDeviceLightUp:    (mac) => HS2SProModule.setDeviceLightUp(mac),
-    enterHS2SHeartRateMeasurementMode: (mac) => HS2SProModule.enterHS2SHeartRateMeasurementMode(mac),
-    exitHS2SHeartRateMeasurementMode:  (mac) => HS2SProModule.exitHS2SHeartRateMeasurementMode(mac),
-    disConnect:          (mac) => HS2SProModule.disConnect(mac)
+    enterHS2SProHeartRateMeasurementMode: (mac) => HS2SProModule.enterHS2SProHeartRateMeasurementMode(mac),
+    exitHS2SProHeartRateMeasurementMode:  (mac) => HS2SProModule.exitHS2SProHeartRateMeasurementMode(mac),
+    disconnect:          (mac) => HS2SProModule.disconnect(mac)
   }
 }

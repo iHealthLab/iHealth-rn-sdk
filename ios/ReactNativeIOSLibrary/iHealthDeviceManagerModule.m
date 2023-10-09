@@ -922,8 +922,6 @@ RCT_EXPORT_METHOD(stopDiscovery){
     
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_ECG3];
     
-    [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_ECG3];
-    
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_THV3];
     
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_BG5S];
@@ -942,6 +940,8 @@ RCT_EXPORT_METHOD(stopDiscovery){
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_BG1A];
     
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_AM6];
+    
+    [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:HealthDeviceType_HS2SPro];
     
     [self.bridge.eventDispatcher sendDeviceEventWithName:kEvent_Scan_Finish body:nil];
 }
@@ -1134,7 +1134,11 @@ RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *
         [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_HS2S andSerialNub:mac];
     }else if ([deviceType isEqualToString:kType_HS2S_PRO]){
         
-        [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_HS2SPro andSerialNub:mac];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_HS2SPro andSerialNub:mac];
+        });
+        
+       
     }else if ([deviceType isEqualToString:kType_PO1]){
         
         [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_PO1 andSerialNub:mac];
