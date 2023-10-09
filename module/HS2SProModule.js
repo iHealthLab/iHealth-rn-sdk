@@ -82,12 +82,12 @@ module.exports = {
     RCTModule.setDeviceLightUp(mac)
   },
 
-  enterHS2SHeartRateMeasurementMode: function (mac) {
-    RCTModule.enterHS2SHeartRateMeasurementMode(mac)
+  enterHS2SProHeartRateMeasurementMode: function (mac) {
+    RCTModule.enterHS2SProHeartRateMeasurementMode(mac)
   },
 
-  exitHS2SHeartRateMeasurementMode: function (mac) {
-    RCTModule.exitHS2SHeartRateMeasurementMode(mac)
+  exitHS2SProHeartRateMeasurementMode: function (mac) {
+    RCTModule.exitHS2SProHeartRateMeasurementMode(mac)
   },
 
 

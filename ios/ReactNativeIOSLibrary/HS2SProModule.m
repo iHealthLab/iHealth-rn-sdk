@@ -427,8 +427,6 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                     [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
                     
-                    [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
-                    
                     [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
                     
                     [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
@@ -636,82 +634,98 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
             
            user.enableFitness=YES;
         }
-              
-        [[self getHS2SPROWithMac:mac]commandStartHS2SPROMeasureWithUser:user realtimeWeightBlock:^(NSNumber * _Nonnull unStableWeight) {
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_DATA,HS2SPRO_WEIGTH:unStableWeight};
-           [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-        } stableWeightBlock:^(NSNumber * _Nonnull stableWeight) {
-            NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight };
         
-           [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-           
-        } weightAndBodyInfoBlock:^(NSDictionary * _Nonnull weightAndBodyInfoDic) {
-            NSMutableDictionary*resultDic=[NSMutableDictionary dictionary];
+        if([userType intValue]==1){
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"UserInfo_Fitness"] forKey:HS2SPRO_BODYBUILDING];
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"UserInfo_ImpedanceMark"] forKey:HS2SPRO_IMPEDANCE];
+            [[self getHS2SPROWithMac:mac]commandStartHS2SPROMeasureWithUser:user realtimeWeightBlock:^(NSNumber * _Nonnull unStableWeight) {
+                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_DATA,HS2SPRO_WEIGTH:unStableWeight};
+               [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            } stableWeightBlock:^(NSNumber * _Nonnull stableWeight) {
+                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight };
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"UserInfo_Height"] forKey:HS2SPRO_HEIGHT];
+               [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+               
+            } weightAndBodyInfoBlock:^(NSDictionary * _Nonnull weightAndBodyInfoDic) {
+                
+                
+                HS2SProMeasurementModel*dataModel=[weightAndBodyInfoDic valueForKey:@"Result"];
+                
+                
+                NSMutableDictionary*resultDic=[NSMutableDictionary dictionary];
+                
+                [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                
+                [resultDic setValue:@[@(dataModel.impedance1),@(dataModel.impedance2),@(dataModel.impedance3),@(dataModel.impedance4),] forKey:HS2SPRO_IMPEDANCE];
+                
+                [resultDic setValue:@(dataModel.height) forKey:HS2SPRO_HEIGHT];
+                
+                [resultDic setValue:@(dataModel.age) forKey:HS2SPRO_AGE];
+                
+                [resultDic setValue:@(dataModel.gender) forKey:HS2SPRO_GENDER];
+                
+                
+                 [resultDic setValue:@(dataModel.weight) forKey:HS2SPRO_WEIGTH];
+                
+                                             
+                NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
+                                             
+                                            
+                [mydateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                                                                   
+                                             
+                NSString *dateStr = [mydateFormatter stringFromDate:dataModel.measureTS];
+                
+                [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
+                
+                [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                
+                [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
+                [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
+                [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
+                [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
+                
+                [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
+                
+                [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
+                
+                [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
+                
+                [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
+                                       
+                    
+                    NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_BODYFAT_RESULT,HS2SPRO_DATA_BODY_FAT_RESULT:resultDic };
+                    
+                       [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+                    
+            } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
+                [weakSelf sendHS2SPROErrorCode:errorID mac:mac];
+            }];
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"UserInfo_Age"] forKey:HS2SPRO_AGE];
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"UserInfo_SEX"] forKey:HS2SPRO_GENDER];
+        }else{
+         
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SWeigthResult"] forKey:HS2SPRO_WEIGTH];
+            [[self getHS2SPROWithMac:mac]commandStartHS2SPROGuestMeasureWithRealtimeWeightBlock:^(NSNumber * _Nonnull unStableWeight) {
                 
-            NSDate *tempDate =[weightAndBodyInfoDic valueForKey:@"HS2SMeasureTS"];
+                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_DATA,HS2SPRO_WEIGTH:unStableWeight};
+               [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+                
+            } stableWeightBlock:^(NSNumber * _Nonnull stableWeight) {
+                
+                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight };
             
-                                
-            NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
-                                         
-            [mydateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                                                               
-            NSString *dateStr = [mydateFormatter stringFromDate:tempDate];
-                                         
+               [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+                
+            } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
+                
+                [weakSelf sendHS2SPROErrorCode:errorID mac:mac];
+            }];
             
-            [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
             
-            [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SBodyWeightFlag"] forKey:HS2SPRO_INSTRUCTION_TYPE];
-            
-            if ([[weightAndBodyInfoDic valueForKey:@"HS2SBodyWeightFlag"] intValue]==1) {
-                
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SFatWeight"] forKey:HS2SPRO_FAT_WEIGHT];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SFatControl"] forKey:HS2SPRO_FAT_CONTROL];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SWeightControl"] forKey:HS2SPRO_WEIGHT_CONTROL];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SStandardWeight"] forKey:HS2SPRO_STANDARD_WEIGHT];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SSkeletalMuscle"] forKey:HS2SPRO_STANDARD_WEIGHT];
-                
-                 [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SBodyWaterPercentAge"] forKey:HS2SPRO_BODY_WATER_RATE];
-                
-                 [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SMuscle"] forKey:HS2SPRO_MUSCLE_MASS];
-                
-                 [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SMuscleControl"] forKey:HS2SPRO_MUSCLE_CONTROL];
-                
-                 [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SProteinPercentAge"] forKey:HS2SPRO_PHYSICAL_AGE];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SVFR"] forKey:HS2SPRO_VISCERAL_FAT_GRADE];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SResultBodyFatPercentAge"] forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
-                
-                [resultDic setValue:[weightAndBodyInfoDic valueForKey:@"HS2SBoneMineral"] forKey:HS2SPRO_BONE_SALT_CONTENT];
-
-                
-            }
-                                   
-                
-                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_BODYFAT_RESULT,HS2SPRO_DATA_BODY_FAT_RESULT:resultDic };
-                
-                   [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-                
-        } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
-            [weakSelf sendHS2SPROErrorCode:errorID mac:mac];
-        }];
+        }
+              
+       
 
     }
 }
@@ -913,11 +927,14 @@ RCT_EXPORT_METHOD(exitHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
                     case 8:
                        errorMassage = @"HS2SPRODeviceError_MeasureOverweight";
                         break;
-                        
                     case 9:
+                       errorMassage = @"HS2SPRODeviceError_MeasureNotGetStalbeWeight";
+                        break;
+                        
+                    case 10:
                         errorMassage = @"HS2SPRODeviceError_Disconnect";
                         break;
-                    case 10:
+                    case 11:
                         errorMassage = @"HS2SPRODeviceError_Unsupported";
                        break;
 
