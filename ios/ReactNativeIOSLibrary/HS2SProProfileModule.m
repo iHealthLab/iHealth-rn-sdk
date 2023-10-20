@@ -30,7 +30,7 @@ RCT_EXPORT_MODULE()
              @"SKELETON_HS" : SKELETON_HS,
              @"FATELEVEL_HS" : FATELEVEL_HS,
              @"DCI_HS" : DCI_HS,
-             
+             @"STATUS":STATUS,
              
              @"ACTION_HISTORICAL_DATA_HS" : ACTION_HISTORICAL_DATA_HS,
              @"HISTORDATA_HS" :HISTORDATA_HS,
@@ -135,6 +135,12 @@ RCT_EXPORT_MODULE()
              
              @"HS2SPRO_BMR":HS2SPRO_BMR,
              
+             @"HS2SPRO_RIGHT_TIME":HS2SPRO_RIGHT_TIME,
+             
+             @"HS2SPRO_IMPEDANCE_ERROR":HS2SPRO_IMPEDANCE_ERROR,
+             
+             @"HS2SPRO_ANONYMOUSMEMORY_COUNT":HS2SPRO_ANONYMOUSMEMORY_COUNT,
+             
              @"HS2SPRO_STANDARD_WEIGHT":HS2SPRO_STANDARD_WEIGHT,
              
              @"HS2SPRO_SKELETAL_MUSCLE_MASS":HS2SPRO_SKELETAL_MUSCLE_MASS,
@@ -157,6 +163,9 @@ RCT_EXPORT_MODULE()
              
              @"HS2SPRO_MEASURE_TIME":HS2SPRO_MEASURE_TIME,
              
+             @"ACTION_HS2SPRO_START_MEASURE_HEARTRATE":ACTION_HS2SPRO_START_MEASURE_HEARTRATE,
+             
+             @"HS2SPRO_HEARTRATE":HS2SPRO_HEARTRATE,
              };
 
 }
