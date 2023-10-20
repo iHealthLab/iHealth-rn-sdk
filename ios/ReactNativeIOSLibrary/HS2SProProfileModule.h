@@ -20,6 +20,8 @@
 
 #define ACTION_ONLINE_RESULT_HS  @"online_result_hs"
 #define DATAID @"dataID"
+#define STATUS @"status"
+
 #define WEIGHT_HS  @"value"
 #define FAT_HS  @""
 #define WATER_HS  @""
@@ -36,11 +38,11 @@
 #define ACTION_NO_HISTORICALDATA  @"noHistoryData"
 #define BATTERY_HS @"battery_hs"
 #define ACTION_BATTARY_HS  @"action_get_battery_hs"
-#define ACTION_ERROR_HS  @"error_hs"
+#define ACTION_ERROR_HS  @"action_error"
 #define ERROR_NUM_HS  @"error"
 #define ERROR_ID_ILLEGAL_ARGUMENT  @"400"
 #define ERROR_ID_WIFI_DISABLED  @""
-#define ERROR_DESCRIPTION_HS @"description"
+#define ERROR_DESCRIPTION_HS @"describe"
 
 
 
@@ -64,9 +66,9 @@
 
 #define ACTION_GET_HS2SPRO_ANONYMOUS_MEMORY_DATA  @"action_anonymous_data"
 
-#define ACTION_DELETE_HS2SPRO_ANONYMOUS_MEMORY_DATA  @"action_delete_anonymous_history_data"
+#define ACTION_DELETE_HS2SPRO_ANONYMOUS_MEMORY_DATA  @"action_delete_anonymous_data"
 
-#define ACTION_HS2SPRO_ONLINE_DATA  @"action_online_real_time_data"
+#define ACTION_HS2SPRO_ONLINE_DATA  @"action_online_real_time_weight"
 
 #define ACTION_HS2SPRO_ONLINE_RESULT  @"action_online_result"
 
@@ -112,11 +114,17 @@
 
 #define MEMORY_COUNT  @"history_data_count"
 
+#define HS2SPRO_ANONYMOUSMEMORY_COUNT  @"anonymous_data_count"
+
 #define MEMORY_DATA  @"history_data"
 
 #define HS2SPRO_DATA_BODY_FAT_RESULT  @"data_body_fat_result"
 
 #define HS2SPRO_SET_RESULT  @"result"
+
+#define HS2SPRO_RIGHT_TIME  @"right_time"
+
+#define HS2SPRO_IMPEDANCE_ERROR  @"data_impedance_errors"
 
 #define ACTION_HS2SPRO_MEASURE_FINISH  @"action_measure_finish_at_critical"
 
@@ -155,18 +163,27 @@
 #define HS2SPRO_BMR  @"bmr"
 
 
-#define ACTION_HS2SPRO_LightUp_DEVICE  @"action_lightup_settings"
+#define ACTION_HS2SPRO_LightUp_DEVICE  @"action_set_ble_light"
 
 #define HS2SPRO_DEVICE_STATUS  @"device_status"
 
-#define ACTION_HS2SPRO_MEASURE_HEARTRATE_DEVICE_STATUS  @"action_measure_heartrate_device_status"
+#define ACTION_HS2SPRO_MEASURE_HEARTRATE_DEVICE_STATUS  @"action_heartrate_measure_status"
 
-#define ACTION_HS2SPRO_MEASURE_HEARTRATE  @"action_measure_heartrate"
+#define ACTION_HS2SPRO_START_MEASURE_HEARTRATE  @"action_start_heartrate_measure"
+
+#define ACTION_HS2SPRO_MEASURE_HEARTRATE  @"action_heartrate_realtime_measure"
+
+
 
 #define HS2SPRO_MEASURE_HEARTRATE_RESULT  @"measure_heartrate_result"
 
 
-#define ACTION_HS2SPRO_EXIT_MEASURE_HEARTRATE_STATUS  @"action_exit_measure_heartrate_status"
+#define ACTION_HS2SPRO_EXIT_MEASURE_HEARTRATE_STATUS  @"action_stop_heartrate_measure"
+
+
+#define HS2SPRO_HEARTRATE  @"heartrate"
+
+
 
 
 

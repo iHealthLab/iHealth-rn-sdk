@@ -242,9 +242,18 @@ RCT_EXPORT_METHOD(updateUserInfo:(nonnull NSString*)mac :(nonnull NSString*)user
     if ([self getHS2SPROWithMac:mac] != nil) {
         
         
+        if(userID.length!=16){
+            
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            
+            
+            return;
+        }
+        
+        
         HS2SProUser*user=[HS2SProUser new];
         
-       
         NSData *data =[userID dataUsingEncoding:NSUTF8StringEncoding];
             
         user.userId=data;
@@ -320,6 +329,14 @@ RCT_EXPORT_METHOD(deleteUser:(nonnull NSString*)mac :(nonnull NSString*)userID){
     
     if ([self getHS2SPROWithMac:mac] != nil) {
         
+        if(userID.length!=16){
+            
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            
+            return;
+        }
+        
         [[self getHS2SPROWithMac:mac]commandDeleteHS2SPROUserWithUserId:userIDData successBlock:^{
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
                                       
@@ -348,6 +365,15 @@ RCT_EXPORT_METHOD(getMemoryDataCount:(nonnull NSString*)mac :(nonnull NSString*)
      __weak typeof(self) weakSelf = self;
     
     if ([self getHS2SPROWithMac:mac] != nil) {
+        
+        if(userID.length!=16){
+            
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            
+            
+            return;
+        }
         
         [[self getHS2SPROWithMac:mac]commandGetHS2SPROMemoryDataCountWithUserId:userIDData successBlock:^(NSNumber * _Nonnull count) {
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
@@ -380,6 +406,15 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
     
     if ([self getHS2SPROWithMac:mac] != nil) {
         
+        if(userID.length!=16){
+            
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            
+            
+            return;
+        }
+        
         [[self getHS2SPROWithMac:mac]commandGetHS2SPROMemoryDataWithUserId:userIDData successBlock:^(NSArray<HS2SProMeasurementModel *> * _Nonnull data) {
             NSMutableArray*resultArray=[NSMutableArray array];
             
@@ -392,9 +427,7 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                      NSMutableDictionary*resultDic=[NSMutableDictionary dictionary];
                     
-                    [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
-                    
-                    [resultDic setValue:@[@(dataModel.impedance1),@(dataModel.impedance2),@(dataModel.impedance3),@(dataModel.impedance4),] forKey:HS2SPRO_IMPEDANCE];
+                    [resultDic setValue:@[@{HS2SPRO_IMPEDANCE:@(dataModel.impedance1)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance2)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance3)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance4)},] forKey:HS2SPRO_IMPEDANCE];
                     
                     [resultDic setValue:@(dataModel.height) forKey:HS2SPRO_HEIGHT];
                     
@@ -402,35 +435,52 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                     [resultDic setValue:@(dataModel.gender) forKey:HS2SPRO_GENDER];
                     
+                    [resultDic setValue:@(dataModel.weight) forKey:HS2SPRO_WEIGTH];
                     
-                     [resultDic setValue:@(dataModel.weight) forKey:HS2SPRO_WEIGTH];
-                    
+                    [resultDic setValue:dataModel.dataId forKey:DATAID];
                                                  
-                    NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
-                                                 
-                                                
-                    [mydateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                                                                       
-                                                 
-                    NSString *dateStr = [mydateFormatter stringFromDate:dataModel.measureTS];
+//                    NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
+//
+//
+//                    [mydateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//
+//
+//                    NSString *dateStr = [mydateFormatter stringFromDate:dataModel.measureTS];
+//
+//                    [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
                     
-                    [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
                     
-                    [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
                     
-                    [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
-                    [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
-                    [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
-                    [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
+                    [resultDic setValue:@([dataModel.measureTS timeIntervalSince1970]) forKey:HS2SPRO_MEASURE_TIME];
                     
-                    [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
+                    [resultDic setValue:@(dataModel.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
                     
-                    [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
+                    [resultDic setValue:@(dataModel.impedanceMeasureErrorCode) forKey:HS2SPRO_IMPEDANCE_ERROR];
                     
-                    [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
-                    
-                    [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
-                    
+                    if(dataModel.impedanceMeasureErrorCode==HS2SProImpedanceMeasureErrorCode_Success){
+                        
+                        [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                        
+//                        [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
+                        [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
+                        [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
+//                        [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
+                        
+//                        [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
+                        
+                        [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
+                        
+//                        [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
+//
+//                        [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
+                        
+                        [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
+                        [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                        
+                    }else{
+                        
+                        [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                    }
                     [resultArray addObject:resultDic];
                     
                 }
@@ -464,6 +514,16 @@ RCT_EXPORT_METHOD(deleteMemoryData:(nonnull NSString*)mac :(nonnull NSString*)us
      __weak typeof(self) weakSelf = self;
     
     if ([self getHS2SPROWithMac:mac] != nil) {
+        
+        if(userID.length!=16){
+            
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            
+            
+            return;
+        }
+        
         [[self getHS2SPROWithMac:mac]commandDeleteHS2SPROMemoryDataWithUserId:userIDData successBlock:^{
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
                                                  
@@ -473,7 +533,7 @@ RCT_EXPORT_METHOD(deleteMemoryData:(nonnull NSString*)mac :(nonnull NSString*)us
                                              
                                              kACTION_KEY:ACTION_DELETE_HS2SPRO_MEMORY_DATA,
                                              
-                                             HS2SPRO_SET_RESULT:@1
+                                             HS2SPRO_SET_RESULT:@0
                                              
                                              }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -498,7 +558,7 @@ RCT_EXPORT_METHOD(getAnonymousMemoryDataCount:(nonnull NSString*)mac){
                                                         
                                                         kACTION_KEY:ACTION_GET_HS2SPRO_ANONYMOUS_MEMORY_COUNT,
                                                         
-                                                        MEMORY_COUNT:count
+                                                        HS2SPRO_ANONYMOUSMEMORY_COUNT:count
                                                         
                                                         }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -536,7 +596,14 @@ RCT_EXPORT_METHOD(getAnonymousMemoryData:(nonnull NSString*)mac){
                               
                               [resultDic setValue:@(dataMode.weight) forKey:HS2SPRO_WEIGTH];
                               
-                              [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
+                              
+//                              [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
+                              
+                              [resultDic setValue:@([dataMode.measureTS timeIntervalSince1970]) forKey:HS2SPRO_MEASURE_TIME];
+                              
+                              [resultDic setValue:dataMode.dataId forKey:DATAID];
+                              
+                              [resultDic setValue:@(dataMode.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
 
                               [resultArray addObject:resultDic];
                               
@@ -637,12 +704,21 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
         
         if([userType intValue]==1){
             
+            if(userID.length!=16){
+                
+                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+                [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+                
+                
+                return;
+            }
+            
             
             [[self getHS2SPROWithMac:mac]commandStartHS2SPROMeasureWithUser:user realtimeWeightBlock:^(NSNumber * _Nonnull unStableWeight) {
                 NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_DATA,HS2SPRO_WEIGTH:unStableWeight};
                [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             } stableWeightBlock:^(NSNumber * _Nonnull stableWeight) {
-                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight };
+                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight,STATUS:@0};
             
                [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                
@@ -656,7 +732,7 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                 
                 [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
                 
-                [resultDic setValue:@[@(dataModel.impedance1),@(dataModel.impedance2),@(dataModel.impedance3),@(dataModel.impedance4),] forKey:HS2SPRO_IMPEDANCE];
+                [resultDic setValue:@[@{HS2SPRO_IMPEDANCE:@(dataModel.impedance1)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance2)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance3)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance4)},] forKey:HS2SPRO_IMPEDANCE];
                 
                 [resultDic setValue:@(dataModel.height) forKey:HS2SPRO_HEIGHT];
                 
@@ -676,22 +752,49 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                                              
                 NSString *dateStr = [mydateFormatter stringFromDate:dataModel.measureTS];
                 
-                [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
+//                [resultDic setValue:dateStr forKey:HS2SPRO_MEASURE_TIME];
                 
-                [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                [resultDic setValue:@([dataModel.measureTS timeIntervalSince1970]) forKey:HS2SPRO_MEASURE_TIME];
                 
-                [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
-                [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
-                [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
-                [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
+                [resultDic setValue:dataModel.dataId forKey:DATAID];
                 
-                [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
+                [resultDic setValue:@(dataModel.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
                 
-                [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
+                [resultDic setValue:@(dataModel.impedanceMeasureErrorCode) forKey:HS2SPRO_IMPEDANCE_ERROR];
                 
-                [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
                 
-                [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
+                
+                if(dataModel.impedanceMeasureErrorCode==HS2SProImpedanceMeasureErrorCode_Success){
+                    
+                    [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+
+                    [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
+                    [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
+                    
+                    [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
+                    
+                    [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
+                    [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                    
+                }else{
+                    
+                    [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                }
+                
+//                [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+//
+//                [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
+//                [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
+//                [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
+//                [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
+//
+//                [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
+//
+//                [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
+//
+//                [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
+//
+//                [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
                                        
                     
                     NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_BODYFAT_RESULT,HS2SPRO_DATA_BODY_FAT_RESULT:resultDic };
@@ -713,7 +816,7 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                 
             } stableWeightBlock:^(NSNumber * _Nonnull stableWeight) {
                 
-                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight };
+                NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_ONLINE_RESULT,HS2SPRO_WEIGTH:stableWeight,STATUS:@0};
             
                [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                 
@@ -807,8 +910,7 @@ RCT_EXPORT_METHOD(setDeviceLightUp:(nonnull NSString*)mac){
                       kTYPE_KEY:kTYPE_HS2SPRO,
                       
                       kACTION_KEY:ACTION_HS2SPRO_LightUp_DEVICE,
-                      
-                      HS2SPRO_SET_RESULT:@1
+                    
                       
                       }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -821,13 +923,27 @@ RCT_EXPORT_METHOD(setDeviceLightUp:(nonnull NSString*)mac){
 }
 
 
-RCT_EXPORT_METHOD(enterHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
+RCT_EXPORT_METHOD(enterHS2SProHeartRateMeasurementMode:(nonnull NSString*)mac){
     
     
     __weak typeof(self) weakSelf = self;
     
 
     if ([self getHS2SPROWithMac:mac] != nil) {
+        
+        
+        [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
+                                  
+                              kMAC_KEY:mac,
+                              
+                              kTYPE_KEY:kTYPE_HS2SPRO,
+                              
+                              kACTION_KEY:ACTION_HS2SPRO_START_MEASURE_HEARTRATE,
+                              
+                              STATUS:@0
+                              
+                              }];
+        
         
         [[self getHS2SPROWithMac:mac] commandEnterHS2SPROHeartRateMeasurementMode:^(NSDictionary * _Nonnull heartResultDic) {
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
@@ -838,7 +954,7 @@ RCT_EXPORT_METHOD(enterHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
                                   
                                   kACTION_KEY:ACTION_HS2SPRO_MEASURE_HEARTRATE,
                                   
-                                  HS2SPRO_MEASURE_HEARTRATE_RESULT:heartResultDic
+                                  HS2SPRO_HEARTRATE:[heartResultDic valueForKey:@"HS2SProNotiKeyHeartRate"]
                                   
                                   }];
         } measurementStatus:^(NSNumber * _Nonnull measurementStatus) {
@@ -850,7 +966,7 @@ RCT_EXPORT_METHOD(enterHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
                                   
                                   kACTION_KEY:ACTION_HS2SPRO_MEASURE_HEARTRATE_DEVICE_STATUS,
                                   
-                                  HS2SPRO_DEVICE_STATUS:measurementStatus
+                                  STATUS:measurementStatus
                                   
                                   }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -862,7 +978,7 @@ RCT_EXPORT_METHOD(enterHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
 }
 
 
-RCT_EXPORT_METHOD(exitHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
+RCT_EXPORT_METHOD(exitHS2SProHeartRateMeasurementMode:(nonnull NSString*)mac){
     
     
     __weak typeof(self) weakSelf = self;
@@ -879,7 +995,7 @@ RCT_EXPORT_METHOD(exitHS2SHeartRateMeasurementMode:(nonnull NSString*)mac){
             
             kACTION_KEY:ACTION_HS2SPRO_EXIT_MEASURE_HEARTRATE_STATUS,
             
-            HS2SPRO_SET_RESULT:@1
+            STATUS:@0
             
             }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
