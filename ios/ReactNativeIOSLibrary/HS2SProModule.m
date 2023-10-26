@@ -946,17 +946,37 @@ RCT_EXPORT_METHOD(enterHS2SProHeartRateMeasurementMode:(nonnull NSString*)mac){
         
         
         [[self getHS2SPROWithMac:mac] commandEnterHS2SPROHeartRateMeasurementMode:^(NSDictionary * _Nonnull heartResultDic) {
-            [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
-                                      
-                                  kMAC_KEY:mac,
-                                  
-                                  kTYPE_KEY:kTYPE_HS2SPRO,
-                                  
-                                  kACTION_KEY:ACTION_HS2SPRO_MEASURE_HEARTRATE,
-                                  
-                                  HS2SPRO_HEARTRATE:[heartResultDic valueForKey:@"HS2SProNotiKeyHeartRate"]
-                                  
-                                  }];
+            
+            int result = [heartResultDic[@"HS2SProNotiKey_MeasureSuccessFlag"] intValue];
+            
+            if(result==0){
+                
+                [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
+                    
+                    kMAC_KEY:mac,
+                    
+                    kTYPE_KEY:kTYPE_HS2SPRO,
+                    
+                    kACTION_KEY:ACTION_HS2SPRO_MEASURE_RESULT,
+                    
+                    HS2SPRO_HEARTRATE:[heartResultDic valueForKey:@"HS2SProNotiKeyHeartRate"]
+                    
+                }];
+            }else{
+                
+                
+                [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
+                    
+                    kMAC_KEY:mac,
+                    
+                    kTYPE_KEY:kTYPE_HS2SPRO,
+                    
+                    kACTION_KEY:ACTION_HS2SPRO_MEASURE_HEARTRATE_FAIL,
+                    
+                    
+                }];
+                
+            }
         } measurementStatus:^(NSNumber * _Nonnull measurementStatus) {
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:@{
                                       

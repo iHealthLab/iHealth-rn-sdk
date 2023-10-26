@@ -173,7 +173,10 @@
 
 #define ACTION_HS2SPRO_MEASURE_HEARTRATE  @"action_heartrate_realtime_measure"
 
+#define ACTION_HS2SPRO_MEASURE_RESULT  @"action_stop_heartrate_result"
 
+
+#define ACTION_HS2SPRO_MEASURE_HEARTRATE_FAIL  @"action_heartrate_measure_fail"
 
 #define HS2SPRO_MEASURE_HEARTRATE_RESULT  @"measure_heartrate_result"
 
