@@ -275,36 +275,26 @@ public class HS2SProModule extends iHealthBaseModule {
         } else if ("action_create_or_update_user_info".equals(action)) {
             int status = params.getInt("status");
             params.putInt("result", status);
-            params.putNull("describe");
-            params.putNull("status");
 
         } else if ("action_delete_user_info".equals(action)) {
             int status = params.getInt("status");
             params.putInt("result", status);
-            params.putNull("describe");
-            params.putNull("status");
-
+           
         } else if ("action_history_data_num".equals(action)) {
             ReadableArray array = params.getArray("history_data_count_array");
             int history_data_count = 0;
             if (array != null && array.size() > 0) {
                 history_data_count = array.getMap(0).getInt("history_data_count");
             }
-            params.putNull("history_data_count_array");
-            params.putNull("history_data_user_count");
             params.putInt("history_data_count", history_data_count);
 
         } else if ("action_delete_history_data".equals(action)) {
             int status = params.getInt("status");
             params.putInt("result", status);
-            params.putNull("describe");
-            params.putNull("status");
 
         } else if ("action_delete_anonymous_data".equals(action)) {
             int status = params.getInt("status");
             params.putInt("result", status);
-            params.putNull("describe");
-            params.putNull("status");
             
         } else if ("action_restore_factory_settings".equals(action)) {
             params.putBoolean("result", true);
@@ -312,8 +302,7 @@ public class HS2SProModule extends iHealthBaseModule {
         } else if ("action_specify_users".equals(action)) {
             int status = params.getInt("status");
             params.putInt("result", status);
-            params.putNull("describe");
-            params.putNull("status");
+
         }
         sendEvent(EVENT_NOTIFY, params);
     }
