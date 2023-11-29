@@ -8,7 +8,8 @@
     "web": "expo start --web",
     "copy": "node copy.js",
     "dev:android": "yarn copy && yarn android",
-    "dev:ios": "yarn copy && yarn ios"
+    "dev:ios": "yarn copy && yarn ios",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@ihealth/ihealthlibrary-react-native": "^1.5.1",
@@ -19,6 +20,7 @@
     "expo": "~48.0.5",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",
+    "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-native": "0.71.3",
     "react-native-safe-area-context": "^4.5.0",
@@ -31,5 +33,10 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "@rneui/themed": {
+      "@rneui/base": "4.0.0-rc.8"
+    }
+  }
 }
