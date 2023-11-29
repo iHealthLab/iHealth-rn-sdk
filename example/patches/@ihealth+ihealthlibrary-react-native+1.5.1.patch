@@ -1,0 +1,12 @@
+diff --git a/node_modules/@ihealth/ihealthlibrary-react-native/android/build.gradle b/node_modules/@ihealth/ihealthlibrary-react-native/android/build.gradle
+index 56d6a99..445f2c2 100755
+--- a/node_modules/@ihealth/ihealthlibrary-react-native/android/build.gradle
++++ b/node_modules/@ihealth/ihealthlibrary-react-native/android/build.gradle
+@@ -38,6 +38,6 @@ dependencies {
+     api 'com.google.code.gson:gson:2.8.6'
+     implementation files('libs/iHealthSDK_2.9.8.jar')
+     implementation 'org.greenrobot:greendao:3.2.2'
+-    implementation 'no.nordicsemi.android:dfu:1.6.1'
++    implementation 'no.nordicsemi.android:dfu:1.8.0'
+     implementation 'com.alibaba:fastjson:1.2.48'
+ }
