@@ -55,8 +55,6 @@ RCT_EXPORT_MODULE()
              
              @"HS2SPRO_DEVICE_INFO":HS2SPRO_DEVICE_INFO,
              
-             @"HS2SPRO_SET_RESULT":HS2SPRO_SET_RESULT,
-             
              @"ACTION_GET_HS2SPRO_USER_INFO":ACTION_GET_HS2SPRO_USER_INFO,
              
              @"HS2SPRO_USER_INFO_ARRAY":HS2SPRO_USER_INFO_ARRAY,

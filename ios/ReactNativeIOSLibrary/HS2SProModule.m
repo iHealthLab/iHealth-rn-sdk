@@ -154,7 +154,7 @@ RCT_EXPORT_METHOD(setUnit:(nonnull NSString*)mac :(nonnull NSNumber*)unit){
             
             kACTION_KEY:ACTION_SET_HS2SPRO_UNIT,
             
-            HS2SPRO_SET_RESULT:@0
+            STATUS:@0
             
             }];
             
@@ -305,7 +305,7 @@ RCT_EXPORT_METHOD(updateUserInfo:(nonnull NSString*)mac :(nonnull NSString*)user
                        
                        kACTION_KEY:ACTION_UPDATE_HS2SPRO_USER_INFO,
                        
-                       HS2SPRO_SET_RESULT:@0
+                       STATUS:@0
                        
                        }];
             
@@ -346,7 +346,7 @@ RCT_EXPORT_METHOD(deleteUser:(nonnull NSString*)mac :(nonnull NSString*)userID){
                                   
                                   kACTION_KEY:ACTION_DELETE_HS2SPRO_USER,
                                   
-                                  HS2SPRO_SET_RESULT:@0
+                                  STATUS:@0
                                   
                                   }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -438,6 +438,8 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     [resultDic setValue:@(dataModel.weight) forKey:HS2SPRO_WEIGTH];
                     
                     [resultDic setValue:dataModel.dataId forKey:DATAID];
+                    
+                    [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
                                                  
 //                    NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
 //
@@ -456,31 +458,24 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     [resultDic setValue:@(dataModel.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
                     
                     [resultDic setValue:@(dataModel.impedanceMeasureErrorCode) forKey:HS2SPRO_IMPEDANCE_ERROR];
+
                     
-//                    if(dataModel.impedanceMeasureErrorCode==HS2SProImpedanceMeasureErrorCode_Success){
-                        
-                        [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
-                        
-//                        [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
+                    if(dataModel.muscle!=-1){
+                      
                         [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
                         [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
-//                        [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
-                        
-//                        [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
                         
                         [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
                         
-//                        [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
-//
-//                        [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
+                        [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PROTEIN_RATE];
                         
                         [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
-                        [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                        [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                    }else{
                         
-//                    }else{
-//
-//                        [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
-//                    }
+                        [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                    }
+
                     [resultArray addObject:resultDic];
                     
                 }
@@ -533,7 +528,7 @@ RCT_EXPORT_METHOD(deleteMemoryData:(nonnull NSString*)mac :(nonnull NSString*)us
                                              
                                              kACTION_KEY:ACTION_DELETE_HS2SPRO_MEMORY_DATA,
                                              
-                                             HS2SPRO_SET_RESULT:@0
+                                             STATUS:@0
                                              
                                              }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -645,7 +640,7 @@ RCT_EXPORT_METHOD(deleteAnonymousMemoryData:(nonnull NSString*)mac){
             
             kACTION_KEY:ACTION_DELETE_HS2SPRO_ANONYMOUS_MEMORY_DATA,
             
-            HS2SPRO_SET_RESULT:@0
+            STATUS:@0
             
             }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -763,40 +758,24 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                 [resultDic setValue:@(dataModel.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
                 
                 [resultDic setValue:@(dataModel.impedanceMeasureErrorCode) forKey:HS2SPRO_IMPEDANCE_ERROR];
-                
-                
-                
-//                if(dataModel.impedanceMeasureErrorCode==HS2SProImpedanceMeasureErrorCode_Success){
-                    
-                    [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+          
 
+                if(dataModel.muscle!=-1){
+                  
                     [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
                     [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
                     
                     [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
                     
-                    [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
-                    [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                    [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PROTEIN_RATE];
                     
-//                }else{
-//
-//                    [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
-//                }
-                
-//                [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
-//
-//                [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_FAT_WEIGHT];
-//                [resultDic setValue:@(dataModel.muscle) forKey:HS2SPRO_MUSCLE_MASS];
-//                [resultDic setValue:@(dataModel.bodyWaterPercentage) forKey:HS2SPRO_BODY_WATER_RATE];
-//                [resultDic setValue:@(dataModel.vfr) forKey:HS2SPRO_VISCERAL_FAT_GRADE];
-//
-//                [resultDic setValue:@(dataModel.proteinPercentage) forKey:HS2SPRO_PHYSICAL_AGE];
-//
-//                [resultDic setValue:@(dataModel.boneMineral) forKey:HS2SPRO_BONE_SALT_CONTENT];
-//
-//                [resultDic setValue:@(dataModel.bmi) forKey:HS2SPRO_BMI];
-//
-//                [resultDic setValue:@(dataModel.bmr) forKey:HS2SPRO_BMR];
+                    [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
+                    [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                }else{
+                    
+                    [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                }
+                    
                                        
                     
                     NSDictionary *deviceInfo =@{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_HS2SPRO_BODYFAT_RESULT,HS2SPRO_DATA_BODY_FAT_RESULT:resultDic };
@@ -853,7 +832,7 @@ RCT_EXPORT_METHOD(resetDevice:(nonnull NSString*)mac){
             
             kACTION_KEY:ACTION_HS2SPRO_RESET_DEVICE,
             
-            HS2SPRO_SET_RESULT:@0
+            STATUS:@0
             
             }];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {

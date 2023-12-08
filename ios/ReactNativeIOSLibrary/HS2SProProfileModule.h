@@ -120,8 +120,6 @@
 
 #define HS2SPRO_DATA_BODY_FAT_RESULT  @"data_body_fat_result"
 
-#define HS2SPRO_SET_RESULT  @"result"
-
 #define HS2SPRO_RIGHT_TIME  @"right_time"
 
 #define HS2SPRO_IMPEDANCE_ERROR  @"data_impedance_errors"
