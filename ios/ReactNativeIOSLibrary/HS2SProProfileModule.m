@@ -109,6 +109,10 @@ RCT_EXPORT_MODULE()
              
              @"HS2SPRO_USER_ID":HS2SPRO_USER_ID,
              
+             @"HS2SPRO_USER_NUM":HS2SPRO_USER_NUM,
+             
+             @"HS2SPRO_IMPEDANCE_ENCRYPT":HS2SPRO_IMPEDANCE_ENCRYPT,
+             
              @"HS2SPRO_INSTRUCTION_TYPE":HS2SPRO_INSTRUCTION_TYPE,
              
              @"HS2SPRO_DATA_BODY_FAT_RESULT":HS2SPRO_DATA_BODY_FAT_RESULT,

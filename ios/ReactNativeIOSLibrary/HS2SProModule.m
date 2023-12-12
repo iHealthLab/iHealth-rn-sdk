@@ -108,7 +108,7 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString*)mac){
         __weak typeof(self) weakSelf = self;
         
         [[self getHS2SPROWithMac:mac]commandGetHS2SPROBattery:^(NSNumber * _Nonnull battary) {
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_BATTARY_HS,HS2SPRO_DEVICE_BATTERY:battary};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:BATTERY_HS,HS2SPRO_DEVICE_BATTERY:battary};
                        
             [weakSelf.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -154,8 +154,6 @@ RCT_EXPORT_METHOD(setUnit:(nonnull NSString*)mac :(nonnull NSNumber*)unit){
             
             kACTION_KEY:ACTION_SET_HS2SPRO_UNIT,
             
-            STATUS:@0
-            
             }];
             
         } disposeErrorBlock:^(HS2SPRODeviceError errorID) {
@@ -189,10 +187,25 @@ RCT_EXPORT_METHOD(getUserInfo:(nonnull NSString*)mac){
                     
                      NSMutableDictionary*resultDic=[NSMutableDictionary dictionary];
                     
-                    [resultDic setValue:@(user.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                    if(user.enableFitness==true){
+                        
+                        [resultDic setValue:@1 forKey:HS2SPRO_BODYBUILDING];
+                        
+                    }else{
+                        
+                        [resultDic setValue:@0 forKey:HS2SPRO_BODYBUILDING];
+                    }
                     
-                    [resultDic setValue:@(user.enableMeasureImpedance) forKey:HS2SPRO_IMPEDANCE];
+                   
                     
+                    if(user.enableMeasureImpedance==true){
+                        
+                        [resultDic setValue:@1 forKey:HS2SPRO_IMPEDANCE];
+                    }else{
+                        
+                        [resultDic setValue:@0 forKey:HS2SPRO_IMPEDANCE];
+                    }
+           
                     [resultDic setValue:@(user.height) forKey:HS2SPRO_HEIGHT];
                     
                     [resultDic setValue:@(user.age) forKey:HS2SPRO_AGE];
@@ -429,6 +442,10 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                     [resultDic setValue:@[@{HS2SPRO_IMPEDANCE:@(dataModel.impedance1)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance2)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance3)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance4)},] forKey:HS2SPRO_IMPEDANCE];
                     
+                    [resultDic setValue:@(dataModel.encryptImpedance) forKey:HS2SPRO_IMPEDANCE_ENCRYPT];
+                    
+                    [resultDic setValue:@(dataModel.loginId) forKey:HS2SPRO_USER_NUM];
+                    
                     [resultDic setValue:@(dataModel.height) forKey:HS2SPRO_HEIGHT];
                     
                     [resultDic setValue:@(dataModel.age) forKey:HS2SPRO_AGE];
@@ -439,7 +456,15 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                     [resultDic setValue:dataModel.dataId forKey:DATAID];
                     
-                    [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                    if(dataModel.enableFitness==true){
+                        
+                        [resultDic setValue:@1 forKey:HS2SPRO_BODYBUILDING];
+                    }else{
+                        
+                        [resultDic setValue:@0 forKey:HS2SPRO_BODYBUILDING];
+                    }
+                    
+                    
                                                  
 //                    NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
 //
@@ -455,7 +480,15 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                     [resultDic setValue:@([dataModel.measureTS timeIntervalSince1970]) forKey:HS2SPRO_MEASURE_TIME];
                     
-                    [resultDic setValue:@(dataModel.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
+                    if(dataModel.isRightTime==true){
+                        
+                        [resultDic setValue:@1 forKey:HS2SPRO_RIGHT_TIME];
+                    }else{
+                        
+                        [resultDic setValue:@0 forKey:HS2SPRO_RIGHT_TIME];
+                    }
+                    
+                    
                     
                     [resultDic setValue:@(dataModel.impedanceMeasureErrorCode) forKey:HS2SPRO_IMPEDANCE_ERROR];
 
@@ -598,7 +631,14 @@ RCT_EXPORT_METHOD(getAnonymousMemoryData:(nonnull NSString*)mac){
                               
                               [resultDic setValue:dataMode.dataId forKey:DATAID];
                               
-                              [resultDic setValue:@(dataMode.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
+                              if(dataMode.isRightTime==true){
+                                  
+                                  [resultDic setValue:@1 forKey:HS2SPRO_RIGHT_TIME];
+                                  
+                              }else{
+                                  [resultDic setValue:@0 forKey:HS2SPRO_RIGHT_TIME];
+                              }
+                             
 
                               [resultArray addObject:resultDic];
                               
@@ -725,9 +765,19 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                 
                 NSMutableDictionary*resultDic=[NSMutableDictionary dictionary];
                 
-                [resultDic setValue:@(dataModel.enableFitness) forKey:HS2SPRO_BODYBUILDING];
+                if(dataModel.enableFitness==true){
+                    
+                    [resultDic setValue:@1 forKey:HS2SPRO_BODYBUILDING];
+                }else{
+                    
+                    [resultDic setValue:@0 forKey:HS2SPRO_BODYBUILDING];
+                }
                 
                 [resultDic setValue:@[@{HS2SPRO_IMPEDANCE:@(dataModel.impedance1)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance2)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance3)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance4)},] forKey:HS2SPRO_IMPEDANCE];
+                
+                [resultDic setValue:@(dataModel.encryptImpedance) forKey:HS2SPRO_IMPEDANCE_ENCRYPT];
+                
+                [resultDic setValue:@(dataModel.loginId) forKey:HS2SPRO_USER_NUM];
                 
                 [resultDic setValue:@(dataModel.height) forKey:HS2SPRO_HEIGHT];
                 
@@ -755,7 +805,13 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                 
                 [resultDic setValue:dataModel.dataId forKey:DATAID];
                 
-                [resultDic setValue:@(dataModel.isRightTime) forKey:HS2SPRO_RIGHT_TIME];
+                if(dataModel.isRightTime==true){
+                    
+                    [resultDic setValue:@1 forKey:HS2SPRO_RIGHT_TIME];
+                    
+                }else{
+                    [resultDic setValue:@0 forKey:HS2SPRO_RIGHT_TIME];
+                }
                 
                 [resultDic setValue:@(dataModel.impedanceMeasureErrorCode) forKey:HS2SPRO_IMPEDANCE_ERROR];
           
