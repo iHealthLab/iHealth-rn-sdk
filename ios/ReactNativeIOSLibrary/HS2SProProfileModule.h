@@ -112,6 +112,10 @@
 
 #define HS2SPRO_USER_ID  @"user_id"
 
+#define HS2SPRO_USER_NUM  @"user_num"
+
+#define HS2SPRO_IMPEDANCE_ENCRYPT  @"impedanceEncrypt"
+
 #define MEMORY_COUNT  @"history_data_count"
 
 #define HS2SPRO_ANONYMOUSMEMORY_COUNT  @"anonymous_data_count"
