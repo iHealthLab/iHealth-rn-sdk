@@ -21,7 +21,7 @@
 		18B752C41FFF61C500DE2629 /* ECGModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B752C31FFF61C500DE2629 /* ECGModule.m */; };
 		18B752C91FFF67DE00DE2629 /* ECGProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B752C81FFF67DE00DE2629 /* ECGProfileModule.m */; };
 		18B752CC1FFF67F100DE2629 /* ECGUSBModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B752CB1FFF67F100DE2629 /* ECGUSBModule.m */; };
-		23FD90E42B2844AD00EEB10A /* iHealthSDK2.11.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FD90E22B2844AD00EEB10A /* iHealthSDK2.11.0.a */; };
+		23FD90E72B2AE62500EEB10A /* iHealthSDK2.11.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FD90E52B2AE62500EEB10A /* iHealthSDK2.11.0.a */; };
 		3F31C42B21ABE80400811B02 /* HS2Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F31C42A21ABE80400811B02 /* HS2Module.m */; };
 		4565653F26E0BDE7007DA850 /* AM5Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565653D26E0BDE6007DA850 /* AM5Module.m */; };
 		4565654026E0BDE7007DA850 /* AM5ProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565653E26E0BDE7007DA850 /* AM5ProfileModule.m */; };
@@ -95,8 +95,8 @@
 		18B752C81FFF67DE00DE2629 /* ECGProfileModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECGProfileModule.m; sourceTree = "<group>"; };
 		18B752CA1FFF67F100DE2629 /* ECGUSBModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECGUSBModule.h; sourceTree = "<group>"; };
 		18B752CB1FFF67F100DE2629 /* ECGUSBModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECGUSBModule.m; sourceTree = "<group>"; };
-		23FD90E22B2844AD00EEB10A /* iHealthSDK2.11.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = iHealthSDK2.11.0.a; sourceTree = "<group>"; };
-		23FD90E32B2844AD00EEB10A /* Headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Headers; sourceTree = "<group>"; };
+		23FD90E52B2AE62500EEB10A /* iHealthSDK2.11.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = iHealthSDK2.11.0.a; sourceTree = "<group>"; };
+		23FD90E62B2AE62500EEB10A /* Headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Headers; sourceTree = "<group>"; };
 		3F31C42921ABE80400811B02 /* HS2Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HS2Module.h; sourceTree = "<group>"; };
 		3F31C42A21ABE80400811B02 /* HS2Module.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HS2Module.m; sourceTree = "<group>"; };
 		4565653B26E0BDE6007DA850 /* AM5Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AM5Module.h; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23FD90E42B2844AD00EEB10A /* iHealthSDK2.11.0.a in Frameworks */,
+				23FD90E72B2AE62500EEB10A /* iHealthSDK2.11.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,8 +284,8 @@
 		187510351DE5E6A5005E66B1 /* Communication_SDK */ = {
 			isa = PBXGroup;
 			children = (
-				23FD90E32B2844AD00EEB10A /* Headers */,
-				23FD90E22B2844AD00EEB10A /* iHealthSDK2.11.0.a */,
+				23FD90E62B2AE62500EEB10A /* Headers */,
+				23FD90E52B2AE62500EEB10A /* iHealthSDK2.11.0.a */,
 			);
 			path = Communication_SDK;
 			sourceTree = "<group>";
