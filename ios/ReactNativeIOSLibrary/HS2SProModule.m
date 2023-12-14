@@ -257,7 +257,7 @@ RCT_EXPORT_METHOD(updateUserInfo:(nonnull NSString*)mac :(nonnull NSString*)user
         
         if(userID.length!=16){
             
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             
@@ -344,7 +344,7 @@ RCT_EXPORT_METHOD(deleteUser:(nonnull NSString*)mac :(nonnull NSString*)userID){
         
         if(userID.length!=16){
             
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             return;
@@ -381,7 +381,7 @@ RCT_EXPORT_METHOD(getMemoryDataCount:(nonnull NSString*)mac :(nonnull NSString*)
         
         if(userID.length!=16){
             
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             
@@ -421,7 +421,7 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
         
         if(userID.length!=16){
             
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             
@@ -545,7 +545,7 @@ RCT_EXPORT_METHOD(deleteMemoryData:(nonnull NSString*)mac :(nonnull NSString*)us
         
         if(userID.length!=16){
             
-            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+            NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             
@@ -741,7 +741,7 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
             
             if(userID.length!=16){
                 
-                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
+                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:@"Error,the length of ID must be 32."};
                 [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                 
                 
@@ -1115,7 +1115,7 @@ RCT_EXPORT_METHOD(exitHS2SProHeartRateMeasurementMode:(nonnull NSString*)mac){
                         break;
                 }
     
-                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:errorMassage};
+                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kTYPE_KEY:kTYPE_HS2SPRO,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:errorMassage};
                 [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
     
     
