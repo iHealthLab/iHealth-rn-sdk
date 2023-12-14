@@ -1074,48 +1074,48 @@ RCT_EXPORT_METHOD(exitHS2SProHeartRateMeasurementMode:(nonnull NSString*)mac){
                 NSString *errorMassage = [NSString string];
                 switch (errorID) {
                     case 0:
-                         errorMassage = @"HS2SPRODeviceError_CommunicationTimeout";
+                         errorMassage = @"Communication Timeout";
                         break;
                     case 1:
-                        errorMassage = @"HS2SPRODeviceError_ReceivedCommandError";
+                        errorMassage = @"Received CommandError";
                         break;
                     case 2:
-                         errorMassage = @"HS2SPRODeviceError_InputParameterError";
+                         errorMassage = @"Input ParameterError";
                         break;
                     case 3:
-                        errorMassage = @"HS2SPRODeviceError_MoreThanMaxNumbersOfUser";
+                        errorMassage = @"More Than Max Numbers Of User";
                         break;
                     case 4:
-                        errorMassage = @"HS2SPRODeviceError_WriteFlashError";
+                        errorMassage = @"Write Flash Error";
                         break;
                     case 5:
-                         errorMassage = @"HS2SPRODeviceError_UserNotExist";
+                         errorMassage = @"User Not Exist";
                         break;
                     case 6:
-                        errorMassage = @"HS2SPRODeviceError_StartMeasureError";
+                        errorMassage = @"Start Measure Error";
                         break;
                     case 7:
-                        errorMassage = @"HS2SPRODeviceError_MeasureTimeout";
+                        errorMassage = @"Measure Timeout";
                         break;
                     case 8:
-                       errorMassage = @"HS2SPRODeviceError_MeasureOverweight";
+                       errorMassage = @"Measure Over weight";
                         break;
                     case 9:
-                       errorMassage = @"HS2SPRODeviceError_MeasureNotGetStalbeWeight";
+                       errorMassage = @"Measure Not Get Stalbe Weight";
                         break;
                         
                     case 10:
-                        errorMassage = @"HS2SPRODeviceError_Disconnect";
+                        errorMassage = @"Disconnect";
                         break;
                     case 11:
-                        errorMassage = @"HS2SPRODeviceError_Unsupported";
+                        errorMassage = @"Unsupported";
                        break;
 
                     default:
                         break;
                 }
     
-                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_NUM_HS:errorMassage};
+                NSDictionary *deviceInfo = @{kMAC_KEY:mac,kACTION_KEY:ACTION_ERROR_HS,ERROR_DESCRIPTION_HS:errorMassage};
                 [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
     
     
