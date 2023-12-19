@@ -288,21 +288,21 @@ public class HS2SProModule extends iHealthBaseModule {
             // }
 
         } else if ("action_create_or_update_user_info".equals(action)) {
-            // int status = params.getInt("status");
+            int status = params.getInt("status");
             if (status == 2) {
                 params.putString("action", "action_error");
                 params.putNull("result");
                 params.putNull("type");
-                params.putString("error": "HS2SPRODeviceError_MoreThanMaxNumbersOfUser");
+                params.putString("error", "HS2SPRODeviceError_MoreThanMaxNumbersOfUser");
             }
         
         } else if ("action_delete_user_info".equals(action)) {
-            // int status = params.getInt("status");
+            int status = params.getInt("status");
             if (status == 2) {
                 params.putString("action", "action_error");
                 params.putNull("result");
                 params.putNull("type");
-                params.putString("error": "HS2SPRODeviceError_UserNotExist");
+                params.putString("error", "HS2SPRODeviceError_UserNotExist");
             }
            
         } else if ("action_history_data_num".equals(action)) {
@@ -310,7 +310,7 @@ public class HS2SProModule extends iHealthBaseModule {
             params.putNull("status");
 
         } else if ("action_delete_history_data".equals(action)) {
-            // int status = params.getInt("status");
+            int status = params.getInt("status");
             params.putNull("describe");
             if (status == 2) {
                 params.putNull("type");
@@ -343,7 +343,7 @@ public class HS2SProModule extends iHealthBaseModule {
         } else if ("action_stop_heartrate_result".equals(action)) {
             int heartRate = params.getInt("heartrate");
             if (heartRate == 0) {
-                params.putString("action", action_heartrate_measure_fail);
+                params.putString("action", "action_heartrate_measure_fail");
             }
 
         } else if ("action_stop_heartrate_measure".equals(action)) {
