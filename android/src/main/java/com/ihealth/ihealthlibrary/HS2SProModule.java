@@ -223,7 +223,7 @@ public class HS2SProModule extends iHealthBaseModule {
     }
 
     @ReactMethod
-    public void enterHS2SHeartRateMeasurementMode(String mac) {
+    public void enterHS2SProHeartRateMeasurementMode(String mac) {
         Hs2sProControl hs2sProControl = getHs2sProControl(mac);
         if (hs2sProControl != null) {
             hs2sProControl.startHeartRateMode();
@@ -233,7 +233,7 @@ public class HS2SProModule extends iHealthBaseModule {
     }
 
     @ReactMethod
-    public void exitHS2SHeartRateMeasurementMode(String mac) {
+    public void exitHS2SProHeartRateMeasurementMode(String mac) {
         Hs2sProControl hs2sProControl = getHs2sProControl(mac);
         if (hs2sProControl != null) {
             hs2sProControl.stopHeartRateMode();
@@ -291,19 +291,17 @@ public class HS2SProModule extends iHealthBaseModule {
             int status = params.getInt("status");
             if (status == 2) {
                 params.putString("action", "action_error");
-                params.putNull("result");
-                params.putNull("type");
                 params.putString("error", "HS2SPRODeviceError_MoreThanMaxNumbersOfUser");
             }
+            params.putNull("describe");
         
         } else if ("action_delete_user_info".equals(action)) {
             int status = params.getInt("status");
             if (status == 2) {
                 params.putString("action", "action_error");
-                params.putNull("result");
-                params.putNull("type");
                 params.putString("error", "HS2SPRODeviceError_UserNotExist");
             }
+            params.putNull("describe");
            
         } else if ("action_history_data_num".equals(action)) {
             params.putNull("describe");
@@ -313,7 +311,6 @@ public class HS2SProModule extends iHealthBaseModule {
             int status = params.getInt("status");
             params.putNull("describe");
             if (status == 2) {
-                params.putNull("type");
                 params.putString("action", "action_error");
             } 
             
@@ -324,15 +321,12 @@ public class HS2SProModule extends iHealthBaseModule {
             params.putNull("status");
             
         } else if ("action_restore_factory_settings".equals(action)) {
-            params.putInt("result", 0);
+            params.putInt("status", 0);
 
         } else if ("action_specify_users".equals(action)) {
             int status = params.getInt("status");
             params.putInt("result", status);
-
-        } else if ("action_error".equals(action)) {
-            params.putNull("error_num");
-            params.putNull("type");
+            return;
 
         } else if ("action_heartrate_measure_status".equals(action)) {
             params.putNull("describe");
@@ -348,7 +342,15 @@ public class HS2SProModule extends iHealthBaseModule {
 
         } else if ("action_stop_heartrate_measure".equals(action)) {
             params.putNull("describe");
+
+        } else if ("action_online_result".equals(action)) {
+            params.putNull("status");
+
+        } else if ("action_body_fat_result".equals(action)) {
+            params.putNull("status");
+            params.putNull("describe");
         }
+
         sendEvent(EVENT_NOTIFY, params);
     }
 
