@@ -291,7 +291,8 @@ public class HS2SProModule extends iHealthBaseModule {
             int status = params.getInt("status");
             if (status == 2) {
                 params.putString("action", "action_error");
-                params.putString("error", "HS2SPRODeviceError_MoreThanMaxNumbersOfUser");
+                params.putString("describe", "More Than Max Numbers Of User");
+                params.putNull("status");
             }
             params.putNull("describe");
         
@@ -299,7 +300,7 @@ public class HS2SProModule extends iHealthBaseModule {
             int status = params.getInt("status");
             if (status == 2) {
                 params.putString("action", "action_error");
-                params.putString("error", "HS2SPRODeviceError_UserNotExist");
+                params.putString("describe", "User Not Exist");
             }
             params.putNull("describe");
            
