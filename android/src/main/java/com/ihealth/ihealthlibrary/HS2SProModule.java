@@ -19,6 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @ReactModule(name = "HS2SProModule")
 public class HS2SProModule extends iHealthBaseModule {
     private static final String modelName = "HS2SProModule";
@@ -261,31 +265,19 @@ public class HS2SProModule extends iHealthBaseModule {
             params.putString("action", "action_set_unit");
 
         } else if ("action_get_user_info".equals(action)) {
-            // try {
-            //     JSONObject totalObj = new JSONObject(message);
-            //     JSONArray userArr = totalObj.getJSONArray("user_info_array");
-            //     for (int i = 0; i < userArr.length(); j++) {
-            //         JSONObject obj = userArr.getJSONObject(i);
-            //         int building  = obj.getInt("body_building");
-            //         if (building == 1) {
-            //             obj.putBoolean("body_building", true);
-            //         } else {
-            //             obj.putBoolean("body_building", false);
-            //         }
-            //         int impedance = obj.getInt("impedance");
-            //         if (impedance == 1) {
-            //             obj.putBoolean("impedance", true);
-            //         } else {
-            //             obj.putBoolean("impedance", false); 
-            //         }
-            //         String userId = obj.getString("user_id");
-            //         obj.putString("user_id", hex2Char(userId));
-            //     }
-            //     message = totalObj.toString();
-            //     Utils.jsonToMap(message, params);
-            // } catch (JSONException e) {
-            //     e.printStackTrace();
-            // }
+            try {
+                JSONObject totalObj = new JSONObject(message);
+                JSONArray userArr = totalObj.getJSONArray("user_info_array");
+                for (int i = 0; i < userArr.length(); i++) {
+                    JSONObject obj = userArr.getJSONObject(i);
+                    String userId = obj.getString("user_id");
+                    obj.put("user_id", hex2Char(userId));
+                }
+                message = totalObj.toString();
+                Utils.jsonToMap(message, params);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         } else if ("action_create_or_update_user_info".equals(action)) {
             int status = params.getInt("status");
@@ -294,7 +286,6 @@ public class HS2SProModule extends iHealthBaseModule {
                 params.putString("describe", "More Than Max Numbers Of User");
                 params.putNull("status");
             }
-            params.putNull("describe");
         
         } else if ("action_delete_user_info".equals(action)) {
             int status = params.getInt("status");
@@ -302,7 +293,6 @@ public class HS2SProModule extends iHealthBaseModule {
                 params.putString("action", "action_error");
                 params.putString("describe", "User Not Exist");
             }
-            params.putNull("describe");
            
         } else if ("action_history_data_num".equals(action)) {
             params.putNull("describe");
