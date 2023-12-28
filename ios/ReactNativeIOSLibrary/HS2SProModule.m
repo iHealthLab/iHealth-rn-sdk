@@ -442,8 +442,6 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                     
                     [resultDic setValue:@[@{HS2SPRO_IMPEDANCE:@(dataModel.impedance1)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance2)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance3)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance4)},] forKey:HS2SPRO_IMPEDANCE];
                     
-                    [resultDic setValue:@(dataModel.encryptImpedance) forKey:HS2SPRO_IMPEDANCE_ENCRYPT];
-                    
                     [resultDic setValue:@(dataModel.loginId) forKey:HS2SPRO_USER_NUM];
                     
                     [resultDic setValue:@(dataModel.height) forKey:HS2SPRO_HEIGHT];
@@ -504,6 +502,9 @@ RCT_EXPORT_METHOD(getMemoryData:(nonnull NSString*)mac :(nonnull NSString*)userI
                         
                         [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
                         [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                        
+                        [resultDic setValue:@(dataModel.encryptImpedance) forKey:HS2SPRO_IMPEDANCE_ENCRYPT];
+                        
                     }else{
                         
                         [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
@@ -775,7 +776,6 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                 
                 [resultDic setValue:@[@{HS2SPRO_IMPEDANCE:@(dataModel.impedance1)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance2)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance3)},@{HS2SPRO_IMPEDANCE:@(dataModel.impedance4)},] forKey:HS2SPRO_IMPEDANCE];
                 
-                [resultDic setValue:@(dataModel.encryptImpedance) forKey:HS2SPRO_IMPEDANCE_ENCRYPT];
                 
                 [resultDic setValue:@(dataModel.loginId) forKey:HS2SPRO_USER_NUM];
                 
@@ -827,6 +827,9 @@ RCT_EXPORT_METHOD(measure:(nonnull NSString*)mac :(nonnull NSNumber*)userType :(
                     
                     [resultDic setValue:@(dataModel.bodyFatPercentage) forKey:HS2SPRO_BODY_FIT_PERCENTAGE];
                     [resultDic setValue:@1 forKey:HS2SPRO_INSTRUCTION_TYPE];
+                    
+                    [resultDic setValue:@(dataModel.encryptImpedance) forKey:HS2SPRO_IMPEDANCE_ENCRYPT];
+                    
                 }else{
                     
                     [resultDic setValue:@0 forKey:HS2SPRO_INSTRUCTION_TYPE];
