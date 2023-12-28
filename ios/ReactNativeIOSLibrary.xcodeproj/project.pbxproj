@@ -21,6 +21,8 @@
 		18B752C41FFF61C500DE2629 /* ECGModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B752C31FFF61C500DE2629 /* ECGModule.m */; };
 		18B752C91FFF67DE00DE2629 /* ECGProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B752C81FFF67DE00DE2629 /* ECGProfileModule.m */; };
 		18B752CC1FFF67F100DE2629 /* ECGUSBModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B752CB1FFF67F100DE2629 /* ECGUSBModule.m */; };
+		23339DBB2B3D183E003073BE /* HS2SProModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 23339DB72B3D183E003073BE /* HS2SProModule.m */; };
+		23339DBC2B3D183E003073BE /* HS2SProProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 23339DBA2B3D183E003073BE /* HS2SProProfileModule.m */; };
 		23FD90E72B2AE62500EEB10A /* iHealthSDK2.11.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FD90E52B2AE62500EEB10A /* iHealthSDK2.11.0.a */; };
 		3F31C42B21ABE80400811B02 /* HS2Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F31C42A21ABE80400811B02 /* HS2Module.m */; };
 		4565653F26E0BDE7007DA850 /* AM5Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565653D26E0BDE6007DA850 /* AM5Module.m */; };
@@ -95,8 +97,12 @@
 		18B752C81FFF67DE00DE2629 /* ECGProfileModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECGProfileModule.m; sourceTree = "<group>"; };
 		18B752CA1FFF67F100DE2629 /* ECGUSBModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECGUSBModule.h; sourceTree = "<group>"; };
 		18B752CB1FFF67F100DE2629 /* ECGUSBModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECGUSBModule.m; sourceTree = "<group>"; };
+		23339DB62B3D0E01003073BE /* Headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Headers; sourceTree = "<group>"; };
+		23339DB72B3D183E003073BE /* HS2SProModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS2SProModule.m; sourceTree = "<group>"; };
+		23339DB82B3D183E003073BE /* HS2SProProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS2SProProfileModule.h; sourceTree = "<group>"; };
+		23339DB92B3D183E003073BE /* HS2SProModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS2SProModule.h; sourceTree = "<group>"; };
+		23339DBA2B3D183E003073BE /* HS2SProProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS2SProProfileModule.m; sourceTree = "<group>"; };
 		23FD90E52B2AE62500EEB10A /* iHealthSDK2.11.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = iHealthSDK2.11.0.a; sourceTree = "<group>"; };
-		23FD90E62B2AE62500EEB10A /* Headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Headers; sourceTree = "<group>"; };
 		3F31C42921ABE80400811B02 /* HS2Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HS2Module.h; sourceTree = "<group>"; };
 		3F31C42A21ABE80400811B02 /* HS2Module.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HS2Module.m; sourceTree = "<group>"; };
 		4565653B26E0BDE6007DA850 /* AM5Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AM5Module.h; sourceTree = "<group>"; };
@@ -253,6 +259,10 @@
 				183FB1641FF5082E0040009B /* BTMModule.h */,
 				183FB1671FF5082F0040009B /* BTMModule.m */,
 				183FB1651FF5082F0040009B /* BTMProfileModule.h */,
+				23339DB92B3D183E003073BE /* HS2SProModule.h */,
+				23339DB72B3D183E003073BE /* HS2SProModule.m */,
+				23339DB82B3D183E003073BE /* HS2SProProfileModule.h */,
+				23339DBA2B3D183E003073BE /* HS2SProProfileModule.m */,
 				183FB1661FF5082F0040009B /* BTMProfileModule.m */,
 				1875101D1DE5E374005E66B1 /* BPProfileModule.h */,
 				1875101E1DE5E374005E66B1 /* BPProfileModule.m */,
@@ -284,7 +294,7 @@
 		187510351DE5E6A5005E66B1 /* Communication_SDK */ = {
 			isa = PBXGroup;
 			children = (
-				23FD90E62B2AE62500EEB10A /* Headers */,
+				23339DB62B3D0E01003073BE /* Headers */,
 				23FD90E52B2AE62500EEB10A /* iHealthSDK2.11.0.a */,
 			);
 			path = Communication_SDK;
@@ -356,6 +366,7 @@
 				8CCCE9E31E5E7C58007F7FE4 /* HS6ProfileModule.m in Sources */,
 				1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */,
 				183FB1681FF508300040009B /* BTMProfileModule.m in Sources */,
+				23339DBB2B3D183E003073BE /* HS2SProModule.m in Sources */,
 				CE6054BA25482CC90059E83A /* TS28BProfileModule.m in Sources */,
 				CE6054B625482CC90059E83A /* HS2SProfileModule.m in Sources */,
 				1875102B1DE5E3FB005E66B1 /* BP3LModule.m in Sources */,
@@ -385,6 +396,7 @@
 				183FB1691FF508300040009B /* BTMModule.m in Sources */,
 				9F3D8E1E1E0B6CDB00BA44B1 /* BG5Module.m in Sources */,
 				CEEE2D0D2548F6E4007AC7E4 /* PT3SBTProfileModule.m in Sources */,
+				23339DBC2B3D183E003073BE /* HS2SProProfileModule.m in Sources */,
 				18B752C41FFF61C500DE2629 /* ECGModule.m in Sources */,
 				CE6054B525482CC90059E83A /* TS28BModule.m in Sources */,
 				AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */,

@@ -1104,7 +1104,7 @@ RCT_EXPORT_METHOD(exitHS2SProHeartRateMeasurementMode:(nonnull NSString*)mac){
                        errorMassage = @"Measure Over weight";
                         break;
                     case 9:
-                       errorMassage = @"Measure Not Get Stalbe Weight";
+                       errorMassage = @"Measure Not Get Stable Weight";
                         break;
                         
                     case 10:
