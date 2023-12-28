@@ -334,7 +334,7 @@ public class HS2SProModule extends iHealthBaseModule {
             params.putNull("describe");
 
         } else if ("action_online_result".equals(action)) {
-            int status = params.getInt("status") 
+            int status = params.getInt("status");
             if (status == 3) {
                 params.putString("action", "action_error");
                 params.putString("describe", "User Not Exist");
