@@ -335,55 +335,60 @@ public class HS2SProModule extends iHealthBaseModule {
 
         } else if ("action_online_result".equals(action)) {
             int status = params.getInt("status");
+            if (status == 2) {
+                params.putString("action", "action_error");
+                params.putString("describe", "Measure Not Get Stable Weight");
+            }
             if (status == 3) {
                 params.putString("action", "action_error");
-                params.putString("describe", "User Not Exist");
+                params.putString("describe", "Measure Timeout");
             }
 
         } else if ("action_body_fat_result".equals(action)) {
             params.putNull("status");
             params.putNull("describe");
         
-        } else if ("action_error".equals(action)) {
-            int errorId = params.getInt("error_num");
-            if (0 == errorId) {
-                params.putString("describe", "Communication Timeout");
+        } 
+        // else if ("action_error".equals(action)) {
+        //     int errorId = params.getInt("error_num");
+        //     if (0 == errorId) {
+        //         params.putString("describe", "Communication Timeout");
 
-            } else if (1 == errorId) {
-                params.putString("describe", "Received CommandError");
+        //     } else if (1 == errorId) {
+        //         params.putString("describe", "Received CommandError");
 
-            } else if (2 == errorId) {
-                params.putString("describe", "Input ParameterError");
+        //     } else if (2 == errorId) {
+        //         params.putString("describe", "Input ParameterError");
 
-            } else if (3 == errorId) {
-                params.putString("describe", "More Than Max Numbers Of User");
+        //     } else if (3 == errorId) {
+        //         params.putString("describe", "More Than Max Numbers Of User");
 
-            } else if (4 == errorId) {
-                params.putString("describe", "Write Flash Error");
+        //     } else if (4 == errorId) {
+        //         params.putString("describe", "Write Flash Error");
 
-            } else if (5 == errorId) {
-                params.putString("describe", "User Not Exist");
+        //     } else if (5 == errorId) {
+        //         params.putString("describe", "User Not Exist");
 
-            } else if (6 == errorId) {
-                params.putString("describe", "Start Measure Error");
+        //     } else if (6 == errorId) {
+        //         params.putString("describe", "Start Measure Error");
 
-            } else if (7 == errorId) {
-                params.putString("describe", "Measure Timeout");
+        //     } else if (7 == errorId) {
+        //         params.putString("describe", "Measure Timeout");
 
-            } else if (8 == errorId) {
-                params.putString("describe", "Measure Over weight");
+        //     } else if (8 == errorId) {
+        //         params.putString("describe", "Measure Over weight");
 
-            } else if (9 == errorId) {
-                params.putString("describe", "Measure Not Get Stable Weight");
+        //     } else if (9 == errorId) {
+        //         params.putString("describe", "Measure Not Get Stable Weight");
 
-            } else if (10 == errorId) {
-                params.putString("describe", "Disconnect");
+        //     } else if (10 == errorId) {
+        //         params.putString("describe", "Disconnect");
 
-            } else if (11 == errorId) {
-                params.putString("describe", "Unsupported");
+        //     } else if (11 == errorId) {
+        //         params.putString("describe", "Unsupported");
 
-            }
-        }
+        //     }
+        // }
 
         sendEvent(EVENT_NOTIFY, params);
     }
