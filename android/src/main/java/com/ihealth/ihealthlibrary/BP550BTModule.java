@@ -47,7 +47,7 @@ public class BP550BTModule extends iHealthBaseModule {
     }
 
     @ReactMethod
-    public void getDeviceFirmwareVersion(String mac) {
+    public void getFirmVersion(String mac) {
         Bp550BTControl bp550BTControl = iHealthDevicesManager.getInstance().getBp550BTControl(mac);
 
         if (bp550BTControl != null) {

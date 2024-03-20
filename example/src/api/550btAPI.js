@@ -12,6 +12,6 @@ export default {
     getTime:          (mac) => BP550BTModule.getTime(mac),
     transferFinished: (mac) => BP550BTModule.transferFinished(mac),
     disconnect:       (mac) => BP550BTModule.disconnect(mac),
-    getDeviceFirmwareVersion:(mac) => BP550BTModule.getDeviceFirmwareVersion(mac)
+    getFirmVersion:    (mac) => BP550BTModule.getFirmVersion(mac)
   }
 }

@@ -118,7 +118,7 @@ RCT_EXPORT_METHOD(getAllConnectedDevices){
 
 #pragma mark - Method
 
-RCT_EXPORT_METHOD(getDeviceFirmwareVersion:(nonnull NSString *)mac){
+RCT_EXPORT_METHOD(getFirmVersion:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
         __weak typeof(self) weakSelf = self;
