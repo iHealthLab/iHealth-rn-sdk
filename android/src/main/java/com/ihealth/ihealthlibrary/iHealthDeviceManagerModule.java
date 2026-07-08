@@ -1,5 +1,6 @@
 package com.ihealth.ihealthlibrary;
 
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -72,7 +73,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     private final static String NT13B = "NT13B";
     private final static String PO1 = "PO1";
     private final static String BG1A = "BG1A";
-     
+
 
     private final static String Event_Scan_Device = "event_scan_device";
     private final static String Event_Scan_Finish = "event_scan_finish";
@@ -88,15 +89,32 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     private static final String DESCRIPTION = "description";
     private static final String IDPS = "idps";
     private String idps = "";
+    private boolean sdkInitialized = false;
 
     public iHealthDeviceManagerModule(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
         mContext = reactContext;
         reactContext.addLifecycleEventListener(this);
-
+        ensureSdkInitialized();
        /* iHealthDevicesManager.getInstance().init(mContext, Log.VERBOSE, Log.WARN);
         Bg1Control.getInstance().init(mContext, "", 0, true);*/
+    }
 
+    private void ensureSdkInitialized() {
+        if (sdkInitialized) {
+            return;
+        }
+
+        Context applicationContext = mContext.getApplicationContext();
+        if (!(applicationContext instanceof Application)) {
+            Log.e(TAG, "Unable to initialize iHealth SDK: application context is unavailable.");
+            return;
+        }
+
+        iHealthDevicesManager.getInstance().init((Application) applicationContext, Log.VERBOSE, Log.VERBOSE);
+        Bg1Control.getInstance().init(applicationContext, "", 0, true);
+        callbackId = iHealthDevicesManager.getInstance().registerClientCallback(miHealthDevicesCallback);
+        sdkInitialized = true;
     }
 
     private iHealthDevicesCallback miHealthDevicesCallback = new iHealthDevicesCallback() {
@@ -159,7 +177,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         }
 
         @Override
-        public void onSDKStatus(int statusId, String statusMessage) { 
+        public void onSDKStatus(int statusId, String statusMessage) {
         if (iHealthDevicesManager.SDK_STATUS_BLUETOOTH_DISABLE == statusId) {
             Log.i("", "Bluetooth service is disable!");
 
@@ -175,7 +193,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         } else if (iHealthDevicesManager.SDK_STATUS_LICENSE_DEVICE_PERMISSION == statusId) {
             Log.i("", "Need this device permission!");
 
-        } 
+        }
     }
 
     };
@@ -343,11 +361,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
     @Override
     public void onHostResume() {
-        if (callbackId == 0) {
-            iHealthDevicesManager.getInstance().init(getCurrentActivity().getApplication(), Log.VERBOSE, Log.VERBOSE);
-            Bg1Control.getInstance().init(mContext, "", 0, true);
-            callbackId = iHealthDevicesManager.getInstance().registerClientCallback(miHealthDevicesCallback);
-        }
+        ensureSdkInitialized();
     }
 
     @Override
@@ -362,8 +376,9 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         if (mBroadcastReceiverRegistered) {
             unRegisterReceiver();
         }
-        callbackId = 0;
         iHealthDevicesManager.getInstance().unRegisterClientCallback(callbackId);
+        callbackId = 0;
+        sdkInitialized = false;
         iHealthDevicesManager.getInstance().destroy();
     }
 
@@ -468,7 +483,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
             } else {
                 iHealthDevicesManager.getInstance().connectDevice(this.userName, mac, type);
             }
-            
+
         }
     }
 
@@ -722,6 +737,8 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
     @ReactMethod
     public void sdkAuthWithLicense(String license) {
+        ensureSdkInitialized();
+
         boolean result = false;
         try {
             InputStream ins = mContext.getAssets().open(license);
