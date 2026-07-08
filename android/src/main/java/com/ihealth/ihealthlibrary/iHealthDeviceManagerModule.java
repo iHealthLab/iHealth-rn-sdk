@@ -376,8 +376,8 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         if (mBroadcastReceiverRegistered) {
             unRegisterReceiver();
         }
-        iHealthDevicesManager.getInstance().unRegisterClientCallback(callbackId);
         callbackId = 0;
+        iHealthDevicesManager.getInstance().unRegisterClientCallback(callbackId);
         sdkInitialized = false;
         iHealthDevicesManager.getInstance().destroy();
     }
